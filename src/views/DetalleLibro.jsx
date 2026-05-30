@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Alerta from '../components/Alerta'
 
 // DATOS hardcodeados — en el futuro vendrían de una API con useEffect
 // (PDF: useEffect - Llamadas a APIs)
@@ -103,12 +104,11 @@ function DetalleLibro({ agregarAlCarrito }) {
               Muestra mensaje de éxito solo si se agregó al carrito
               (PDF: Renderizado condicional - Operador &&) */}
           {agregado && (
-            <div className="bg-purple-100 text-purple-700 px-4 py-3 rounded mt-4 flex items-center justify-between">
-              <span>✓ ¡Libro agregado al Carrito!</span>
-              <Link to="/carrito" className="text-sm underline hover:text-purple-900">
-                Ver Carrito
-              </Link>
-            </div>
+            <Alerta
+              texto="¡Libro agregado al Carrito!"
+              linkTexto="Ver Carrito"
+              linkRuta="/carrito"
+            />
           )}
 
 
