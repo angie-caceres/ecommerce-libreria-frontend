@@ -10,6 +10,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Catalogo from './views/Catalogo'
 import Checkout from './views/Checkout'
+import ConfirmacionPedido from './views/ConfirmacionPedido'
 
 function App() {
 
@@ -94,6 +95,13 @@ function App() {
           path="/checkout"
           element={<Checkout carrito={carrito} />}
         />
+
+        {/* Confirmacion pedido */}
+        <Route 
+          path="/pedido" 
+          element={<ConfirmacionPedido carrito={carrito} />} 
+        />
+
       </Routes>
       <Footer />
     </>
