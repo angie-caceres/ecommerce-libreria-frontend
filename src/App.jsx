@@ -11,9 +11,8 @@ import Footer from './components/Footer'
 import Catalogo from './views/Catalogo'
 import Checkout from './views/Checkout'
 import ConfirmacionPedido from './views/ConfirmacionPedido'
-import Login from "./views/Login";
-
-
+import Login from './views/Login'
+import Registro from './views/Registro'
 
 function App() {
 
@@ -107,13 +106,13 @@ function App() {
           path="/pedido" 
           element={<ConfirmacionPedido/>} 
         />
-
         {/* Login */}
-        <Route 
-          path="/login" 
-          element={<Login/>} 
-        />
-        
+       <Route path="/" element={<Home />} />
+        {/* Login */}
+        <Route path="/login" element={<Login />} />
+        {/* Registro */}
+        <Route path="/registro" element={<Registro />} />
+
       </Routes>
       <Footer />
     </>
