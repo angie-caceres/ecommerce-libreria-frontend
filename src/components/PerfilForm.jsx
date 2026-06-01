@@ -76,6 +76,16 @@ function PerfilForm({ usuario }) {
           Volver al inicio
         </Link>
       </div>
+      <button
+ onClick={() => {
+   localStorage.removeItem("usuarioLogueado");
+   window.location.href = "/login";
+ }}
+ className="text-red-500 text-xs uppercase hover:underline"
+>
+ Cerrar sesión
+</button>
+
 
       <div className="mt-8 text-center">
         <p className="font-serif text-xl italic text-[#351118]">

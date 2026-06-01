@@ -16,7 +16,7 @@ import Registro from './views/Registro'
 import Perfil from './views/Perfil'
 import ConfirmacionRegistro from './views/ConfirmacionRegistro'
 import EditarPerfil from './views/EditarPerfil';
-
+import MisOrdenes from './views/MisOrdenes'
 
 
 function App() {
@@ -132,6 +132,10 @@ function App() {
         {/* Editar perfil */}
         <Route path="/editar-perfil" 
         element={<EditarPerfil />} 
+        />
+        {/* Mis órdenes */}
+        <Route path="/mis-ordenes"
+        element={<MisOrdenes />} 
         />
 
       </Routes>
