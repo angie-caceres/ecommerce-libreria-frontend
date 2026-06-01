@@ -2,10 +2,15 @@
 // Cada componente es un archivo propio, nombre en PascalCase (PDF: Exposición de experto - Componentes)
 import { Link, NavLink } from 'react-router-dom'
 
+
 // PROPS — recibe carrito del padre App.jsx 
 // Son de solo lectura, no se pueden modificar desde acá
 // (PDF: Estados locales y props - ¿Qué son las props?)
 function Navbar({ carrito }) { //recibe carrito como prop
+  const usuarioLogueado = JSON.parse(
+ localStorage.getItem("usuarioLogueado")
+);
+
 
   // ARRAY de links del menú — dato estático definido dentro del componente
   // Se usa .map() para renderizar la lista (PDF: Renderizado condicional - Listas)
@@ -51,6 +56,11 @@ function Navbar({ carrito }) { //recibe carrito como prop
             </svg>
           </button>
         </div>
+      {usuarioLogueado && (
+      <Link to="/mis-ordenes">
+       MIS ÓRDENES
+      </Link>
+      )}
 
         {/* Iconos de usuario */}
         <div className="flex items-center gap-6 text-xs text-[#7B5B98]">
@@ -61,6 +71,7 @@ function Navbar({ carrito }) { //recibe carrito como prop
             </svg>
             MI CUENTA
           </Link>
+
 
            {/* Ícono carrito con badge
               RENDERIZADO CONDICIONAL con &&

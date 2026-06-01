@@ -13,6 +13,11 @@ import Checkout from './views/Checkout'
 import ConfirmacionPedido from './views/ConfirmacionPedido'
 import Login from './views/Login'
 import Registro from './views/Registro'
+import Perfil from './views/Perfil'
+import ConfirmacionRegistro from './views/ConfirmacionRegistro'
+import EditarPerfil from './views/EditarPerfil';
+
+
 
 function App() {
 
@@ -106,12 +111,28 @@ function App() {
           path="/pedido" 
           element={<ConfirmacionPedido/>} 
         />
+      
         {/* Login */}
-       <Route path="/" element={<Home />} />
-        {/* Login */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" 
+        element={<Login />} />
+        
         {/* Registro */}
-        <Route path="/registro" element={<Registro />} />
+        <Route path="/registro" 
+        element={<Registro/>} 
+        />
+       
+        {/* Confirmación de registro */}
+        <Route path="/confirmacion-registro" 
+        element={<ConfirmacionRegistro />} />
+        
+        {/* Perfil */}
+        <Route path="/perfil" 
+        element={<Perfil/>} 
+        />
+        {/* Editar perfil */}
+        <Route path="/editar-perfil" 
+        element={<EditarPerfil />} 
+        />
 
       </Routes>
       <Footer />
