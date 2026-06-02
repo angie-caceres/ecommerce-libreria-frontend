@@ -7,15 +7,15 @@ import Pagination from "../../components/Pagination";
 
 // DATOS DE PRUEBA
 const autoresIniciales = [
-  { id: '#AUT-1', nombre: 'Jorge Luis Borges',         libros: 8  },
-  { id: '#AUT-2', nombre: 'Pablo Neruda',             libros: 6  },
-  { id: '#AUT-3', nombre: 'J.K. Rowling',              libros: 7  },
-  { id: '#AUT-4', nombre: 'Suzanne Collins',           libros: 4  },
-  { id: '#AUT-5', nombre: 'Julio Verne',               libros: 3  },
-  { id: '#AUT-6', nombre: 'Stephen King',              libros: 12 },
-  { id: '#AUT-7', nombre: 'Mario Benedetti',           libros: 2  },
-  { id: '#AUT-8', nombre: 'Gabriel García Márquez',    libros: 5  },
-  { id: '#AUT-9', nombre: 'Jane Austen',               libros: 8  },
+  { id: '#AUT-1', nombre: 'Jorge Luis Borges',         nacionalidad: 'Argentino',      libros: 8  },
+  { id: '#AUT-2', nombre: 'Pablo Neruda',              nacionalidad: 'Chileno',        libros: 6  },
+  { id: '#AUT-3', nombre: 'J.K. Rowling',              nacionalidad: 'Británica',      libros: 7  },
+  { id: '#AUT-4', nombre: 'Suzanne Collins',           nacionalidad: 'Estadounidense', libros: 4  },
+  { id: '#AUT-5', nombre: 'Julio Verne',               nacionalidad: 'Francés',        libros: 3  },
+  { id: '#AUT-6', nombre: 'Stephen King',              nacionalidad: 'Estadounidense', libros: 12 },
+  { id: '#AUT-7', nombre: 'Mario Benedetti',           nacionalidad: 'Uruguayo',       libros: 2  },
+  { id: '#AUT-8', nombre: 'Gabriel García Márquez',    nacionalidad: 'Colombiano',     libros: 5  },
+  { id: '#AUT-9', nombre: 'Jane Austen',               nacionalidad: 'Británica',      libros: 8  },
 ]
 
 const POR_PAGINA = 9
@@ -27,7 +27,8 @@ function GestionAutores() {
   const [pagina, setPagina]     = useState(1)
   const [modal, setModal]       = useState(null)   // null | 'crear' | 'editar'
   const [editItem, setEditItem] = useState(null)   
-  const [nombre, setNombre]     = useState('')
+  const [nombre, setNombre]           = useState('')
+  const [nacionalidad, setNacionalidad] = useState('')
   const [deleteId, setDeleteId] = useState(null)   
 
   // PAGINACIÓN — calcula qué items mostrar según la página actual
@@ -37,12 +38,14 @@ function GestionAutores() {
   // HANDLERS — funciones que manejan eventos de la UI
   const abrirCrear = () => {
     setNombre('')
+    setNacionalidad('')
     setEditItem(null)
     setModal('crear')
   }
 
   const abrirEditar = (autor) => {
     setNombre(autor.nombre)
+    setNacionalidad(autor.nacionalidad || '')
     setEditItem(autor)
     setModal('editar')
   }
@@ -58,11 +61,11 @@ function GestionAutores() {
 
     if (modal === 'editar' && editItem) {
       setLista(lista.map(g =>
-        g.id === editItem.id ? { ...g, nombre: nombre.trim() } : g
+        g.id === editItem.id ? { ...g, nombre: nombre.trim(), nacionalidad: nacionalidad.trim() } : g
       ))
     } else {
       const nuevoId = `#AUT-${lista.length + 1}`
-      setLista([...lista, { id: nuevoId, nombre: nombre.trim(), libros: 0 }])
+      setLista([...lista, { id: nuevoId, nombre: nombre.trim(), nacionalidad: nacionalidad.trim(), libros: 0 }])
     }
 
     cerrarModal()
@@ -117,7 +120,7 @@ function GestionAutores() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-gray-100">
-                    {["ID", "AUTOR", "LIBROS PUBLICADOS", "ACCIONES"].map((header) => (
+                    {["ID", "AUTOR", "NACIONALIDAD", "LIBROS PUBLICADOS", "ACCIONES"].map((header) => (
                       <th 
                         key={header} 
                         className="text-left text-xs font-bold text-gray-400 uppercase tracking-widest px-6 py-4"
@@ -149,6 +152,11 @@ function GestionAutores() {
                         </div>
                       </td>
 
+                      {/* Nacionalidad */}
+                      <td className="px-6 py-4 text-sm text-gray-600">
+                        {autor.nacionalidad || '—'}
+                      </td>
+
                       {/* Cantidad de libros */}
                       <td className="px-6 py-4 text-sm font-medium text-gray-600">
                         {autor.libros} {autor.libros === 1 ? 'libro' : 'libros'}
@@ -176,7 +184,7 @@ function GestionAutores() {
 
                   {paginados.length === 0 && (
                     <tr>
-                      <td colSpan={4} className="px-6 py-16 text-center text-gray-400 text-sm">
+                      <td colSpan={5} className="px-6 py-16 text-center text-gray-400 text-sm">
                         No se encontraron autores registrados.
                       </td>
                     </tr>
@@ -223,6 +231,18 @@ function GestionAutores() {
                       placeholder="Ej: Gabriel García Márquez"
                       value={nombre}
                       onChange={e => setNombre(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && handleAceptar()}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-semibold uppercase tracking-wider text-gray-500 mb-1">
+                      Nacionalidad
+                    </label>
+                    <input
+                      className="w-full border border-purple-400 rounded-lg px-3 py-2 text-sm text-gray-700 outline-none focus:ring-2 focus:ring-purple-100"
+                      placeholder="Ej: Argentina"
+                      value={nacionalidad}
+                      onChange={e => setNacionalidad(e.target.value)}
                       onKeyDown={e => e.key === 'Enter' && handleAceptar()}
                     />
                   </div>

@@ -5,6 +5,7 @@ import Sidebar from "../../components/Sidebar";
 // Datos simulados para géneros y editoriales
 const GENEROS_MOCK = ["Fantasía", "Ciencia Ficción", "Romance", "Terror", "Historia", "Biografía", "Ensayo"];
 const EDITORIALES_MOCK = ["Planeta", "Sudamericana", "Alfaguara", "Urano", "Siglo XXI", "FCE"];
+const AUTORES_MOCK = ["Suzanne Collins", "George Orwell"];
 
 // Campo reutilizable para formularios
 function FormField({ label, children, className = "" }) {
@@ -117,10 +118,12 @@ export default function CrearLibro() {
           </h2>
           {/* Mensaje de confirmación */}
           {submitted && (
-            <div className="mb-4 flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl text-sm font-medium">
-              <span>✅</span>
-              <span>¡Libro creado correctamente! Podés ver el catálogo en Gestión de libros.</span>
-              <button onClick={handleCancel} className="ml-auto text-emerald-500 hover:text-emerald-700">✕</button>
+            <div className="bg-purple-100 text-purple-700 px-4 py-3 rounded mt-4 flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span>✓</span>
+                <span className="text-sm">¡Libro creado correctamente! Podés ver el catálogo en Gestión de libros.</span>
+              </div>
+              <button onClick={handleCancel} className="text-purple-400 hover:text-purple-700 text-lg">×</button>
             </div>
           )}
 
@@ -239,15 +242,17 @@ export default function CrearLibro() {
 
             </div>
             <FormField label="Autores" className="mt-5">
-              <input
-                type="text"
+              <select
                 name="autores"
                 value={form.autores}
                 onChange={handleChange}
-                placeholder="Agregar autor..."
-                className={inputClass}
-              />
-              <p className="text-xs text-gray-400">Separar múltiples autores con coma</p>
+                className={`${inputClass} appearance-none cursor-pointer`}
+              >
+                <option value="">Seleccionar autor</option>
+                {AUTORES_MOCK.map((a) => (
+                  <option key={a} value={a}>{a}</option>
+                ))}
+              </select>
             </FormField>
 
             <FormField label="Portada" className="mt-5">

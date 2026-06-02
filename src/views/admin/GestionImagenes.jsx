@@ -61,7 +61,7 @@ export default function GestionImagenes() {
         <div className="p-8 bg-[#f7f4ef] min-h-screen">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-4xl text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Gestión de Imágenes
               </h1>
               <p className="text-gray-500 text-sm">
@@ -71,7 +71,7 @@ export default function GestionImagenes() {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
+            <h2 className="text-2xl text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
               Cargar nueva imagen
             </h2>
 
@@ -113,7 +113,7 @@ export default function GestionImagenes() {
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="p-5 border-b border-gray-100">
-              <h2 className="text-xl font-bold text-gray-900">
+              <h2 className="text-2xl text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Imágenes cargadas
               </h2>
             </div>
