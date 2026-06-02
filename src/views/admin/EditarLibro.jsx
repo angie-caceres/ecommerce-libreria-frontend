@@ -14,8 +14,9 @@ const IMAGENES_MOCK = [
   { id: 3, nombre: "Portada Amanecer en la cosecha" },
 ];
 
-const GENEROS_MOCK    = ["Fantasía", "Ciencia Ficción", "Romance", "Terror", "Historia", "Biografía", "Ensayo", "Clásicos Literarios"];
+const GENEROS_MOCK     = ["Fantasía", "Ciencia Ficción", "Romance", "Terror", "Historia", "Biografía", "Ensayo", "Clásicos Literarios"];
 const EDITORIALES_MOCK = ["Planeta", "Sudamericana", "Alfaguara", "Urano", "Siglo XXI", "FCE", "L'Atelier Press"];
+const AUTORES_MOCK     = ["Suzanne Collins", "George Orwell"];
 
 function FormField({ label, children, className = "" }) {
   return (
@@ -50,14 +51,11 @@ export default function EditarLibro() {
     precio: libroActual?.precioOriginal || "",
     genero: libroActual?.genero || "",
     editorial: "",
+    autores: libroActual?.autor || "",
     imagenId: "",
   });
 
   const [stock, setStock] = useState(0);
-  const [autores, setAutores] = useState(
-    libroActual?.autor ? [libroActual.autor] : []
-  );
-  const [autorInput, setAutorInput] = useState("");
 
   const [updated, setUpdated]         = useState(false);
   const [errors, setErrors]           = useState({});
@@ -71,26 +69,6 @@ export default function EditarLibro() {
   
   const incrementStock = () => setStock(s => s + 1);
   const decrementStock = () => setStock(s => Math.max(0, s - 1));
-
-  const agregarAutor = () => {
-    const nombre = autorInput.trim();
-    if (!nombre || autores.includes(nombre)) return;
-  
-    setAutores(prev => [...prev, nombre]);
-    setAutorInput("");
-  };
-
-  const eliminarAutor = (nombre) => {
-   
-    setAutores(prev => prev.filter(a => a !== nombre));
-  };
-  // Permite agregar autores con la tecla Enter
-    const handleAutorKeyDown = (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            agregarAutor();
-        }
-    };
 
   // Verifica los campos obligatorios
     const validate = () => {
@@ -120,7 +98,7 @@ export default function EditarLibro() {
       return;
     }
 
-    const payload = { ...form, stock, autores };
+    const payload = { ...form, stock };
 
     console.log("Libro actualizado:", payload);
 
@@ -140,7 +118,6 @@ const handleCancel = () => {
   });
 
   setStock(0);
-  setAutores(libroActual?.autor ? [libroActual.autor] : []);
   setErrors({});
 };
 
@@ -267,27 +244,17 @@ const handleCancel = () => {
               </div>
 
               <FormField label="Autores">
-                <div className={`${inputClass} flex flex-wrap gap-2 min-h-[44px] cursor-text`}>
-                  {autores.map((autor) => (
-                    <span key={autor}
-                      className="inline-flex items-center gap-1.5 bg-[#EBE5F2] text-[#473954] text-xs font-semibold px-2.5 py-1 rounded-full">
-                      {autor}
-
-                      <button onClick={() => eliminarAutor(autor)}
-                        className="hover:text-[#200538] font-bold leading-none">×</button>
-                    </span>
+                <select
+                  name="autores"
+                  value={form.autores}
+                  onChange={handleChange}
+                  className={`${inputClass} appearance-none cursor-pointer`}
+                >
+                  <option value="">Seleccionar autor</option>
+                  {AUTORES_MOCK.map((a) => (
+                    <option key={a} value={a}>{a}</option>
                   ))}
-                  <input
-                    type="text"
-                    value={autorInput}
-                    onChange={(e) => setAutorInput(e.target.value)}
-                    onKeyDown={handleAutorKeyDown}
-                    onBlur={agregarAutor}
-                    placeholder={autores.length === 0 ? "Agregar autor..." : ""}
-                    className="flex-1 min-w-[120px] border-0 outline-none text-sm text-gray-700 placeholder:text-gray-300 bg-transparent"
-                  />
-                </div>
-                <p className="text-xs text-gray-400">Presioná Enter para agregar un autor</p>
+                </select>
               </FormField>
               <FormField label="Portada">
                 <select

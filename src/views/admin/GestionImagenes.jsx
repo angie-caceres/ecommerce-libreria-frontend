@@ -4,52 +4,59 @@ import HeaderAdmin from "../../components/HeaderAdmin";
 import Sidebar from "../../components/Sidebar";
 
 export default function GestionImagenes() {
+
+  // HOOK useState — estado local de las imágenes cargadas
+  // (PDF: Estados locales y props - useState)
   const [imagenes, setImagenes] = useState([
-    {
-      id: 1,
-      nombre: "1984",
-      url: "/libros/1984.png",
-    },
-    {
-      id: 2,
-      nombre: "El Hobbit",
-      url: "/libros/elhobbit.png",
-    },
-    {
-      id: 3,
-      nombre: "Amanecer en la cosecha",
-      url: "/libros/juegos.png",
-    },
-  ]);
+    { id: 1, nombre: "1984", url: "/libros/1984.png" },
+    { id: 2, nombre: "El Hobbit", url: "/libros/elhobbit.png" },
+    { id: 3, nombre: "Amanecer en la cosecha", url: "/libros/juegos.png" },
+  ])
 
-  const [nombre, setNombre] = useState("");
-  const [url, setUrl] = useState("");
-  const [mensaje, setMensaje] = useState("");
+  // HOOK useState — estado local del formulario
+  // (PDF: Estados locales y props - useState)
+  const [nombre, setNombre] = useState("")
+  const [archivo, setArchivo] = useState(null)
+  const [mensaje, setMensaje] = useState("")
 
+  // EVENTO — agrega una nueva imagen al estado
+  // Usa URL.createObjectURL para crear una URL temporal del archivo
+  // No modifica el estado directamente
+  // (PDF: Estados locales y props - Nunca modifiques el estado directamente)
   const handleAgregarImagen = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (!nombre.trim() || !url.trim()) {
-      setMensaje("Completá todos los campos");
-      return;
+    if (!nombre.trim() || !archivo) {
+      // Validación con estado — no usa alert() ni toca el DOM
+      // (PDF: Estados locales y props - useState)
+      setMensaje("Completá todos los campos")
+      return
     }
+
+    // Crea una URL temporal del archivo seleccionado
+    // Solo funciona mientras la página está abierta — con backend se subiría al servidor
+    const urlLocal = URL.createObjectURL(archivo)
 
     const nuevaImagen = {
       id: Date.now(),
       nombre,
-      url,
-    };
+      url: urlLocal,
+    }
 
-    setImagenes([...imagenes, nuevaImagen]);
+    // Agrega la nueva imagen al array sin modificar el estado directamente
+    setImagenes([...imagenes, nuevaImagen])
+    setNombre("")
+    setArchivo(null)
+    setMensaje("Imagen cargada correctamente")
+    setTimeout(() => setMensaje(""), 3000)
+  }
 
-    setNombre("");
-    setUrl("");
-    setMensaje("Imagen cargada correctamente");
-  };
-
+  // EVENTO — elimina una imagen del estado por id
+  // Usa filter sin modificar el array directamente
+  // (PDF: Estados locales y props - Nunca modifiques el estado directamente)
   const handleEliminar = (id) => {
-    setImagenes(imagenes.filter((imagen) => imagen.id !== id));
-  };
+    setImagenes(imagenes.filter((imagen) => imagen.id !== id))
+  }
 
   return (
     <div className="min-h-screen bg-[#f7f4ef] flex font-sans">
@@ -75,25 +82,30 @@ export default function GestionImagenes() {
               Cargar nueva imagen
             </h2>
 
-            <form
-              onSubmit={handleAgregarImagen}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4"
-            >
+            <form onSubmit={handleAgregarImagen} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+              {/* Nombre de la imagen */}
               <input
                 type="text"
                 placeholder="Nombre de la imagen"
                 value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
+                onChange={(e) => { setNombre(e.target.value); setMensaje('') }}
                 className="px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 outline-none text-sm"
               />
 
-              <input
-                type="text"
-                placeholder="URL o ruta de la imagen"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                className="px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 outline-none text-sm"
-              />
+              {/* Selector de archivo personalizado */}
+              <label className="flex items-center gap-2 px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-sm cursor-pointer hover:bg-gray-100 transition-colors">
+                <span className="text-gray-400 whitespace-nowrap">Seleccionar archivo</span>
+                <span className="truncate italic text-gray-700">
+                  {archivo ? `"${archivo.name}"` : ""}
+                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => { setArchivo(e.target.files[0] || null); setMensaje('') }}
+                />
+              </label>
 
               <button
                 type="submit"
@@ -104,6 +116,9 @@ export default function GestionImagenes() {
               </button>
             </form>
 
+            {/* RENDERIZADO CONDICIONAL con &&
+                Solo muestra el mensaje si existe
+                (PDF: Renderizado condicional - Operador &&) */}
             {mensaje && (
               <p className="mt-4 text-sm font-semibold text-[#7b5b99]">
                 {mensaje}
@@ -118,13 +133,18 @@ export default function GestionImagenes() {
               </h2>
             </div>
 
+            {/* RENDERIZADO DE LISTA con .map()
+                Cada imagen se renderiza como una tarjeta
+                Siempre con key única
+                (PDF: Renderizado condicional - Listas) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-6">
               {imagenes.map((imagen) => (
-                <div
-                  key={imagen.id}
-                  className="border border-gray-100 rounded-xl p-4 shadow-sm"
-                >
+                <div key={imagen.id} className="border border-gray-100 rounded-xl p-4 shadow-sm">
+
                   <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden mb-4">
+                    {/* RENDERIZADO CONDICIONAL con ternario
+                        Si tiene URL muestra la imagen, sino muestra ícono placeholder
+                        (PDF: Renderizado condicional - Operador ternario) */}
                     {imagen.url ? (
                       <img
                         src={imagen.url}
@@ -136,10 +156,10 @@ export default function GestionImagenes() {
                     )}
                   </div>
 
-                  <h3 className="font-bold text-gray-800 text-sm">
-                    {imagen.nombre}
-                  </h3>
+                  <h3 className="font-bold text-gray-800 text-sm">{imagen.nombre}</h3>
 
+                  {/* EVENTO onClick — elimina la imagen del estado
+                      (PDF: Estados locales y props - Eventos) */}
                   <button
                     onClick={() => handleEliminar(imagen.id)}
                     className="flex items-center gap-2 text-red-500 text-xs font-semibold hover:underline"
@@ -147,6 +167,7 @@ export default function GestionImagenes() {
                     <Trash2 size={14} />
                     Eliminar
                   </button>
+
                 </div>
               ))}
             </div>
@@ -154,5 +175,5 @@ export default function GestionImagenes() {
         </div>
       </main>
     </div>
-  );
+  )
 }
