@@ -41,8 +41,6 @@ export default function CrearLibro() {
     imagenId:    "",
   });
   
-
-
   // Estados de validación y mensajes
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors]       = useState({});
@@ -96,7 +94,7 @@ export default function CrearLibro() {
 
     setForm({ titulo:"", descripcion:"", paginas:"", precio:"",
               stock:"", genero:"", editorial:"",
-              autores:"", imagenId:"" });
+              autores:"", imagenid:""});
     setErrors({});
     setSubmitted(false);
   };
@@ -238,6 +236,7 @@ export default function CrearLibro() {
                   <p className="text-xs text-red-500 mt-0.5">{errors.editorial}</p>
                 )}
               </FormField>
+
             </div>
             <FormField label="Autores" className="mt-5">
               <input
@@ -251,16 +250,18 @@ export default function CrearLibro() {
               <p className="text-xs text-gray-400">Separar múltiples autores con coma</p>
             </FormField>
 
-            {/* ── CAMPO: ID de imagen ──────────────────────── */}
-            <FormField label="ID de imagen" className="mt-5">
-              <input
-                type="text"
+            <FormField label="Portada" className="mt-5">
+              <select
                 name="imagenId"
                 value={form.imagenId}
                 onChange={handleChange}
-                placeholder="Ej: 1"
-                className={inputClass}
-              />
+                className={`${inputClass} appearance-none cursor-pointer`}
+              >
+                <option value="">Seleccionar portada</option>
+                <option value="1">Portada 1984</option>
+                <option value="2">Portada El Hobbit</option>
+                <option value="3">Portada Amanecer en la cosecha</option>
+              </select>
             </FormField>
 
           </div>

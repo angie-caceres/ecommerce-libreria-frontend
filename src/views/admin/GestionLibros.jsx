@@ -4,6 +4,7 @@ import { Trash2, Pencil, X } from 'lucide-react'
 import HeaderAdmin from "../../components/HeaderAdmin"
 import Sidebar from "../../components/Sidebar"
 import Pagination from "../../components/Pagination"
+import { useNavigate } from "react-router-dom";
 
 // DATOS DE PRUEBA
 const librosIniciales = [
@@ -34,6 +35,7 @@ const GENERO_COLORES = {
 const POR_PAGINA = 9
 
 function GestionLibros() {
+  const navigate = useNavigate();
 
   const [lista, setLista]       = useState(librosIniciales)
   const [pagina, setPagina]     = useState(1)
@@ -51,9 +53,8 @@ function GestionLibros() {
   }
 
   const handleEditar = (libro) => {
-    // Conectar a la ruta de edición cuando esté lista
-    console.log('Editar libro:', libro.id)
-  }
+    navigate(`/admin/libros/editar/${libro.id}`);
+  };
 
   // Muestra precio final aplicando descuento si existe
   const getPrecio = (libro) => {
@@ -66,7 +67,7 @@ function GestionLibros() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] font-sans">
+    <div className="min-h-screen bg-[#f7f4ef] font-serif">
 
       <Sidebar />
 
@@ -78,10 +79,21 @@ function GestionLibros() {
 
           {/* Encabezado */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <h2 className="text-3xl font-bold text-gray-800">Gestión de libros</h2>
-            <button className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-xs font-semibold hover:opacity-90 transition-opacity bg-purple-600 shadow-sm uppercase tracking-wider self-start">
-              + Nuevo Libro
-            </button>
+            <div>
+              <h2
+                className="text-4xl text-gray-900"
+                style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Gestión de libros
+              </h2>
+            </div>
+
+            <div>
+              <button
+                onClick={() => navigate("/admin/libros/crear")}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-xs font-semibold hover:opacity-90 transition-opacity bg-[#CBAAE9] shadow-sm uppercase tracking-wider">
+                  + Nuevo Libro
+              </button>
+            </div>
           </div>
 
           {/* TABLA */}

@@ -35,11 +35,11 @@ const AVATAR_BG = "bg-[#CBAAE9]";
 
 export default function GestionUsuarios() {
 
-  const [currentPage,  setCurrentPage]  = useState(1);
+  const [usuarios, setUsuarios] = useState(USUARIOS);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filtroActivo, setFiltroActivo] = useState("Todos");
-  const [sidebarOpen,  setSidebarOpen]  = useState(false);
 
-  const usuariosFiltrados = USUARIOS.filter((u) => {
+  const usuariosFiltrados = usuarios.filter((u) => {
   if (filtroActivo === "Todos") return true;
   if (filtroActivo === "Activo") return u.activo === true;
   if (filtroActivo === "Inactivo") return u.activo === false;
@@ -54,6 +54,15 @@ export default function GestionUsuarios() {
   );
 
   const handleFiltroActivo = (v) => { setFiltroActivo(v); setCurrentPage(1); };
+  const cambiarEstadoUsuario = (id) => {
+    setUsuarios((prevUsuarios) =>
+      prevUsuarios.map((usuario) =>
+        usuario.id === id
+          ? { ...usuario, activo: !usuario.activo }
+          : usuario
+      )
+    );
+  };
 
   const rolStyle = (rol) =>
     rol === "Administrador"
@@ -130,32 +139,49 @@ export default function GestionUsuarios() {
 
                 <tbody className="divide-y divide-gray-50">
                   {usuariosPagina.map((usuario) => (
-                    <tr key={usuario.id}
+                    <tr
+                      key={usuario.id}
                       className="hover:bg-purple-50/30 transition-colors">
+                      {/* USUARIO */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-full ${AVATAR_BG} flex items-center
-                            justify-center text-white text-sm font-bold flex-shrink-0`}>
+                          <div
+                            className={`w-10 h-10 rounded-full ${AVATAR_BG} flex items-center justify-center text-white text-sm font-bold flex-shrink-0`}
+                          >
                             {usuario.iniciales}
                           </div>
                           <div>
-                            <p className="text-base font-semibold text-gray-800">{usuario.nombre}</p>
-                            <p className="text-xs text-gray-400">Miembro desde {usuario.desde}</p>
+                            <p className="text-base font-semibold text-gray-800">
+                              {usuario.nombre}
+                            </p>
+                            <p className="text-xs text-gray-400">
+                              Miembro desde {usuario.desde}
+                            </p>
                           </div>
                         </div>
                       </td>
 
+                      {/* ROL */}
                       <td className="px-6 py-4">
-                        <span className={`text-xs font-semibold px-3 py-1 rounded-full ${rolStyle(usuario.rol)}`}>
+                        <span
+                          className={`text-xs font-semibold px-3 py-1 rounded-full ${rolStyle(
+                            usuario.rol
+                          )}`}
+                        >
                           {usuario.rol}
                         </span>
                       </td>
 
+                      {/* ESTADO */}
                       <td className="px-6 py-4">
-                        <span className={`text-xs font-semibold px-3 py-1 rounded-full
-                          ${estadoStyle(usuario.activo)}`}>
+                        <button
+                          onClick={() => cambiarEstadoUsuario(usuario.id)}
+                          className={`text-xs font-semibold px-3 py-1 rounded-full transition-colors ${estadoStyle(
+                            usuario.activo
+                          )}`}
+                        >
                           {usuario.activo ? "Activo" : "Inactivo"}
-                        </span>
+                        </button>
                       </td>
                     </tr>
                   ))}

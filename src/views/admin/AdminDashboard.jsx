@@ -39,7 +39,7 @@ const RECENT_ORDERS = [
 
 // Muestra una tarjeta con un ícono, un título,
 // un valor y opcionalmente una etiqueta (badge)
-function StatCard({ icon, label, value, badge }) {
+function StatCard({ icon, label, value, badge, onClick }) {
   return (
      <div
         onClick={onClick}
@@ -171,7 +171,7 @@ function SalesChart({ data }) {
 // ===============================
 
 // Muestra la lista de pedidos recientes
-function OrdersTable({ orders }) {
+function OrdersTable({ orders, onVerTodo }) {
 
   // Determina el color según el estado del pedido
   const statusStyle = (status) =>
@@ -190,7 +190,9 @@ function OrdersTable({ orders }) {
           Pedidos recientes
         </h2>
 
-        <button className="text-xs font-bold text-gray-500 border border-gray-200 px-4 py-2 rounded">
+        <button
+          onClick={onVerTodo}
+          className="text-xs font-bold text-gray-500 border border-gray-200 px-4 py-2 rounded hover:bg-gray-100">
           VER TODO
         </button>
       </div>
@@ -306,7 +308,7 @@ export default function AdminDashboard() {
               icon={<BookOpen size={16} />}
               label="Total Libros"
               value="1,240"
-              onClick={() => navigate("/gestion-libros")}
+              onClick={() => navigate("/admin/libros")}
             />
 
             <StatCard
@@ -314,6 +316,7 @@ export default function AdminDashboard() {
               label="Usuarios Totales"
               value="420"
               badge="+28 nuevos"
+              onClick={() => navigate("/admin/usuarios")}
             />
 
           </div>
@@ -322,7 +325,10 @@ export default function AdminDashboard() {
           <SalesChart data={WEEKLY_SALES} />
 
           {/* Tabla */}
-          <OrdersTable orders={RECENT_ORDERS} />
+          <OrdersTable
+            orders={RECENT_ORDERS}
+            onVerTodo={() => navigate("/admin/pedidos")}
+          />
 
         </main>
       </div>

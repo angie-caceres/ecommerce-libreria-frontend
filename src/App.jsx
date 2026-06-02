@@ -30,7 +30,7 @@ import CrearLibro from './views/admin/CrearLibro'
 import EditarLibro from './views/admin/EditarLibro'
 import GestionUsuario from './views/admin/GestionUsuario'
 import VerPedidos from './views/admin/VerPedidos'
-// import GestionLibros from "./views/GestionLibros"
+import GestionImagenes from './views/admin/GestionImagenes'
 
 import Login from "./views/Login";
 import MisOrdenes from "./views/MisOrdenes";
@@ -157,10 +157,11 @@ function App() {
         <Route path="/admin/descuentos" element={usuario?.rol === 'admin' ? <GestionDescuentos /> : <Navigate to="/login" />} />
         <Route path="/admin" element={usuario?.rol === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />} />
         <Route path="/admin/libros" element={usuario?.rol === 'admin' ? <GestionLibros /> : <Navigate to="/login" />} />
-        <Route path="/admin/crear-libro" element={usuario?.rol === 'admin' ? <CrearLibro /> : <Navigate to="/login" />} />
-        <Route path="/admin/editar-libro" element={usuario?.rol === 'admin' ? <EditarLibro /> : <Navigate to="/login" />} />
+        <Route path="/admin/libros/crear" element={usuario?.rol === 'admin' ? <CrearLibro /> : <Navigate to="/login" />} />
+        <Route path="/admin/libros/editar/:id" element={usuario?.rol === 'admin' ? <EditarLibro /> : <Navigate to="/login" />} />
         <Route path="/admin/usuarios" element={usuario?.rol === 'admin' ? <GestionUsuario /> : <Navigate to="/login" />} />
         <Route path="/admin/pedidos" element={usuario?.rol === 'admin' ? <VerPedidos /> : <Navigate to="/login" />} />
+        <Route path="/admin/imagenes" element={usuario?.rol === 'admin'? <GestionImagenes /> : <Navigate to="/login" />}/>
         <Route path="/mis-ordenes" element={usuario?.rol === 'usuario' ? <MisOrdenes /> : <Navigate to="/login" />} />
         <Route path="/quienes-somos" element={<QuienesSomos />} />
         <Route path="/contacto" element={<Contacto />} />

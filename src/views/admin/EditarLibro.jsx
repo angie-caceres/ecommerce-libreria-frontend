@@ -1,18 +1,18 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import HeaderAdmin from "../../components/HeaderAdmin";
 import Sidebar from "../../components/Sidebar";
 
-const LIBRO_MOCK = {
-  titulo:      "Cien años de soledad",
-  descripcion: "La obra maestra de Gabriel García Márquez, un hito del realismo mágico que narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo.",
-  paginas:     "356",
-  precio:      "12500.00",
-  stock:       24,
-  genero:      "Clásicos Literarios",
-  editorial:   "L'Atelier Press",
-  autores:     ["Gabriel García Márquez"],
-  portada:     "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1327881361i/320.jpg",
-};
+const LIBROS_MOCK = [
+  { id: 1, titulo: "Amanecer en la cosecha", autor: "Suzanne Collins", genero: "Distopía", precioOriginal: 40000, descuento: "-10%" },
+  { id: 2, titulo: "1984", autor: "George Orwell", genero: "Distopía", precioOriginal: 18000, descuento: "0%"},
+  { id: 3, titulo: "El Hobbit", autor: "J.R.R. Tolkien", genero: "Fantasía", precioOriginal: 25000, descuento: "0%" },
+];
+const IMAGENES_MOCK = [
+  { id: 1, nombre: "Portada 1984" },
+  { id: 2, nombre: "Portada El Hobbit" },
+  { id: 3, nombre: "Portada Amanecer en la cosecha" },
+];
 
 const GENEROS_MOCK    = ["Fantasía", "Ciencia Ficción", "Romance", "Terror", "Historia", "Biografía", "Ensayo", "Clásicos Literarios"];
 const EDITORIALES_MOCK = ["Planeta", "Sudamericana", "Alfaguara", "Urano", "Siglo XXI", "FCE", "L'Atelier Press"];
@@ -38,18 +38,25 @@ const inputClass =
 // PRINCIPAL: EditarLibro
 // ─────────────────────────────────────────────────────────────
 export default function EditarLibro() {
+  const { id } = useParams();
+  const libroActual = LIBROS_MOCK.find(
+    (libro) => libro.id === Number(id)
+  );
 
   const [form, setForm] = useState({
-    titulo:      LIBRO_MOCK.titulo,
-    descripcion: LIBRO_MOCK.descripcion,
-    paginas:     LIBRO_MOCK.paginas,
-    precio:      LIBRO_MOCK.precio,
-    genero:      LIBRO_MOCK.genero,
-    editorial:   LIBRO_MOCK.editorial,
+    titulo: libroActual?.titulo || "",
+    descripcion: "",
+    paginas: "",
+    precio: libroActual?.precioOriginal || "",
+    genero: libroActual?.genero || "",
+    editorial: "",
+    imagenId: "",
   });
 
-  const [stock, setStock] = useState(LIBRO_MOCK.stock);
-  const [autores, setAutores]       = useState(LIBRO_MOCK.autores);
+  const [stock, setStock] = useState(0);
+  const [autores, setAutores] = useState(
+    libroActual?.autor ? [libroActual.autor] : []
+  );
   const [autorInput, setAutorInput] = useState("");
 
   const [updated, setUpdated]         = useState(false);
@@ -105,11 +112,12 @@ export default function EditarLibro() {
     };
 
   const handleSubmit = () => {
+    console.log("Botón actualizar presionado");
     const newErrors = validate();
 
     if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
+      setErrors(newErrors);
+      return;
     }
 
     const payload = { ...form, stock, autores };
@@ -118,18 +126,23 @@ export default function EditarLibro() {
 
     setUpdated(true);
     setTimeout(() => setUpdated(false), 3000);
-    };
-
-  const handleCancel = () => {
-    setForm({
-      titulo: LIBRO_MOCK.titulo, descripcion: LIBRO_MOCK.descripcion,
-      paginas: LIBRO_MOCK.paginas, precio: LIBRO_MOCK.precio,
-      editorial: LIBRO_MOCK.editorial,
-    });
-    setStock(LIBRO_MOCK.stock);
-    setAutores(LIBRO_MOCK.autores);
-    setErrors({});
   };
+
+const handleCancel = () => {
+  setForm({
+    titulo: libroActual?.titulo || "",
+    descripcion: "",
+    paginas: "",
+    precio: libroActual?.precioOriginal || "",
+    genero: libroActual?.genero || "",
+    editorial: "",
+    imagenId: "",
+  });
+
+  setStock(0);
+  setAutores(libroActual?.autor ? [libroActual.autor] : []);
+  setErrors({});
+};
 
   const estadoInventario = stock > 0 ? "EN CATÁLOGO" : "SIN STOCK";
   const estadoColor      = stock > 0
@@ -276,23 +289,23 @@ export default function EditarLibro() {
                 </div>
                 <p className="text-xs text-gray-400">Presioná Enter para agregar un autor</p>
               </FormField>
+              <FormField label="Portada">
+                <select
+                  name="imagenId"
+                  value={form.imagenId}
+                  onChange={handleChange}
+                  className={`${inputClass} appearance-none cursor-pointer`}
+                >
+                  <option value="">Seleccionar portada</option>
 
-            </div>
+                  {IMAGENES_MOCK.map((imagen) => (
+                    <option key={imagen.id} value={imagen.id}>
+                      {imagen.nombre}
+                    </option>
+                  ))}
+                </select>
+              </FormField>
 
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Portada</p>
-              {LIBRO_MOCK.portada ? (
-                <img
-                  src={LIBRO_MOCK.portada}
-                  alt={`Portada de ${form.titulo}`}
-                  className="w-full rounded-xl object-cover shadow-sm"
-                  onError={(e) => { e.target.style.display = "none"; }}
-                />
-              ) : (
-                <div className="w-full h-64 bg-gray-100 rounded-xl flex items-center justify-center text-gray-300 text-4xl">
-                  📚
-                </div>
-              )}
             </div>
 
           </div>
