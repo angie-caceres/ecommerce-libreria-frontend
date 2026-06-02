@@ -75,7 +75,7 @@ function GestionEditoriales() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] font-sans">
+    <div className="min-h-screen bg-[#f7f4ef] font-serif">
 
       {/* Menú lateral fijo */}
       <Sidebar />
@@ -92,7 +92,11 @@ function GestionEditoriales() {
           {/* Bloque superior: Título, descripción y botón unificado */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-bold text-gray-800">Gestión de editoriales</h2>
+              <h2
+                className="text-4xl text-gray-900"
+                style={{ fontFamily: "'Playfair Display', serif" }}>
+                Gestión de editoriales
+              </h2>
             </div>
             <div>
               <button

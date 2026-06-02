@@ -1,7 +1,6 @@
 import { useState } from "react";
-import HeaderAdmin from "../components/HeaderAdmin";
-import Sidebar from "../components/Sidebar";
-import { DESCUENTOS_MOCK } from "./CrearDescuento";
+import HeaderAdmin from "../../components/HeaderAdmin";
+import Sidebar from "../../components/Sidebar";
 
 // Datos simulados para géneros y editoriales
 const GENEROS_MOCK = ["Fantasía", "Ciencia Ficción", "Romance", "Terror", "Historia", "Biografía", "Ensayo"];
@@ -36,7 +35,6 @@ export default function CrearLibro() {
     descripcion: "",
     paginas:     "",
     precio:      "",
-    descuentoId: "",
     stock:       "",
     genero:      "",
     editorial:   "",
@@ -89,7 +87,6 @@ export default function CrearLibro() {
     }
     const payload = {
       ...form,
-      descuentoId: Number(form.descuentoId),
     };
     console.log("Libro a crear:", payload);
     setSubmitted(true);
@@ -99,14 +96,14 @@ export default function CrearLibro() {
   const handleCancel = () => {
 
     setForm({ titulo:"", descripcion:"", paginas:"", precio:"",
-              descuentoId:"", stock:"", genero:"", editorial:"",
+              stock:"", genero:"", editorial:"",
               autores:"", imagenId:"" });
     setErrors({});
     setSubmitted(false);
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] font-sans">
+    <div className="min-h-screen bg-[#f7f4ef] font-serif">
         {/* Menú lateral */}
         <Sidebar />
 
@@ -116,8 +113,11 @@ export default function CrearLibro() {
 
             {/* Contenido principal */}
             <main className="flex-1 p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Crear Libro</h2>
-
+          <h2
+            className="text-4xl font-bold text-gray-900"
+            style={{ fontFamily: "'Playfair Display', serif" }}>
+            Crear Libro
+          </h2>
           {/* Mensaje de confirmación */}
           {submitted && (
             <div className="mb-4 flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl text-sm font-medium">
@@ -186,26 +186,8 @@ export default function CrearLibro() {
                 {errors.precio && (
                   <p className="text-xs text-red-500 mt-0.5">{errors.precio}</p>
                 )}
-              </FormField>
-
-              <FormField label="Descuento">
-                <select
-                  name="descuentoId"
-                  value={form.descuentoId}
-                  onChange={handleChange}
-                  className={`${inputClass} appearance-none cursor-pointer`}
-                >
-                  <option value="">Seleccionar descuento</option>
-                  {DESCUENTOS_MOCK.map((descuento) => (
-                    <option key={descuento.id} value={descuento.id}>
-                      {descuento.nombre} - {descuento.porcentaje}%
-                    </option>
-                  ))}
-                 </select>
-                </FormField>
-            </div>
-
-            <FormField label="Stock disponible" className="mt-5">
+            </FormField>
+             <FormField label="Stock disponible">
               <input
                 type="number"
                 name="stock"
@@ -219,6 +201,7 @@ export default function CrearLibro() {
                 <p className="text-xs text-red-500 mt-0.5">{errors.stock}</p>
               )}
             </FormField>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
 

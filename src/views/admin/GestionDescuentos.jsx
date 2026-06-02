@@ -6,7 +6,7 @@ import Sidebar from "../../components/Sidebar";
 import Pagination from "../../components/Pagination";
 
 // DATOS DE PRUEBA
-const descuentosIniciales = [
+export const descuentosIniciales = [
   { id: '#DESC-1', libro: 'Harry Potter y la piedra filosofal', porcentaje:'20%', activo: true  },
   { id: '#DESC-2', libro: 'Los juegos del hambre', porcentaje:'5%', activo: true  },
   { id: '#DESC-3', libro: 'Rayuela', porcentaje:'10%', activo: true  },
@@ -127,7 +127,7 @@ function GestionDescuentos() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] font-sans">
+    <div className="min-h-screen bg-[#f7f4ef] font-serif">
 
       {/* Menú lateral */}
       <Sidebar />
@@ -144,7 +144,11 @@ function GestionDescuentos() {
           {/* Bloque superior con Título y Botón de Acción integrado al estilo header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-bold text-gray-800">Gestión de descuentos</h2>
+              <h2
+                className="text-4xl text-gray-900"
+                style={{ fontFamily: "'Playfair Display', serif" }}>
+                Gestión de descuentos
+              </h2>
             </div>
             <div>
               <button

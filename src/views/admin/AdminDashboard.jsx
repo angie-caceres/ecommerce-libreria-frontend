@@ -1,8 +1,8 @@
 //Vista de administrador dashboard 
 //Hook de React (actualmente no se utiliza en el código)
 import { useState } from "react";
-import HeaderAdmin from "../components/HeaderAdmin";
-import Sidebar from "../components/Sidebar";
+import HeaderAdmin from "../../components/HeaderAdmin";
+import Sidebar from "../../components/Sidebar";
 import { BookOpen, Users } from "lucide-react";
 
 
@@ -86,9 +86,11 @@ function SalesChart({ data }) {
     <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
 
       {/* Título del gráfico */}
-      <h2 className="text-2xl font-bold text-gray-900 mb-8">
-        Ventas Semanales
-      </h2>
+      <h2
+          className="text-4xl text-gray-900"
+          style={{ fontFamily: "'Playfair Display', serif" }}>
+          Ventas semanales
+        </h2>
 
       {/* Contenedor de barras */}
       <div className="flex items-end justify-between h-56 px-4">
@@ -180,8 +182,10 @@ function OrdersTable({ orders }) {
 
       {/* Encabezado */}
       <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">
-          Pedidos Recientes
+        <h2
+          className="text-4xl text-gray-900"
+          style={{ fontFamily: "'Playfair Display', serif" }}>
+          Pedidos recientes
         </h2>
 
         <button className="text-xs font-bold text-gray-500 border border-gray-200 px-4 py-2 rounded">
@@ -272,7 +276,7 @@ function OrdersTable({ orders }) {
 export default function AdminDashboard() {
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] flex font-sans">
+    <div className="min-h-screen bg-[#f7f4ef] flex font-serif">
 
       {/* Menú lateral */}
       <Sidebar />
@@ -286,7 +290,9 @@ export default function AdminDashboard() {
         {/* Contenido del dashboard */}
         <main className="p-10 max-w-6xl mx-auto space-y-12">
 
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2
+            className="text-4xl text-gray-900"
+            style={{ fontFamily: "'Playfair Display', serif" }}>
             Resumen
           </h2>
 

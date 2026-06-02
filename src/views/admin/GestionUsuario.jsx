@@ -1,7 +1,7 @@
 import { useState } from "react";
-import HeaderAdmin from "../components/HeaderAdmin";
-import Sidebar from "../components/Sidebar";
-import Pagination from "../components/Pagination";
+import HeaderAdmin from "../../components/HeaderAdmin";
+import Sidebar from "../../components/Sidebar";
+import Pagination from "../../components/Pagination";
 
 const USUARIOS = [
   { id: 1,  nombre: "Eleanor Vance",    iniciales: "EV", desde: 2023, rol: "Usuario",        activo: true  },
@@ -66,7 +66,7 @@ export default function GestionUsuarios() {
       : "text-gray-500";
 
   return (
-  <div className="min-h-screen bg-[#f7f4ef] font-sans">
+  <div className="min-h-screen bg-[#f7f4ef] font-serif">
 
     {/* Menú lateral */}
     <Sidebar />
@@ -81,7 +81,11 @@ export default function GestionUsuarios() {
 
           {/* Encabezado */}
           <div>
-            <h2 className="text-3xl font-bold text-gray-800">Gestión de usuarios</h2>
+           <h2
+            className="text-4xl text-gray-900"
+            style={{ fontFamily: "'Playfair Display', serif" }}>
+            Gestión de usuarios
+          </h2>
             <p className="text-sm text-gray-400 mt-1">
               Gestionando el acceso y los roles del ecosistema Entre letras.
             </p>
@@ -135,7 +139,7 @@ export default function GestionUsuarios() {
                             {usuario.iniciales}
                           </div>
                           <div>
-                            <p className="text-sm font-semibold text-gray-800">{usuario.nombre}</p>
+                            <p className="text-base font-semibold text-gray-800">{usuario.nombre}</p>
                             <p className="text-xs text-gray-400">Miembro desde {usuario.desde}</p>
                           </div>
                         </div>

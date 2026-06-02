@@ -38,56 +38,30 @@ export default function Pagination({
   );
 
   return (
-    <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between flex-wrap gap-3">
-      <p className="text-xs text-gray-400">
-        Mostrando {inicio} a {fin} de {totalItems} {itemLabel}
-      </p>
+  <div className="px-6 py-4 border-t border-gray-100 flex justify-center">
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="px-4 py-2 border border-gray-300 rounded-md text-sm font-semibold text-gray-800 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Anterior
+      </button>
 
-      <div className="flex items-center gap-1">
-        <button
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm transition-colors ${
-            currentPage === 1
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-gray-500 hover:bg-gray-100"
-          }`}
-        >
-          ‹
-        </button>
+      <button
+        className="px-4 py-2 border border-gray-300 rounded-md text-sm font-semibold text-gray-800 bg-white"
+      >
+        {currentPage}
+      </button>
 
-        {getPages().map((page, index) => (
-          <button
-            key={`${page}-${index}`}
-            onClick={() =>
-              typeof page === "number" &&
-              onPageChange(page)
-            }
-            disabled={page === "..."}
-            className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
-              page === currentPage
-                ? "bg-purple-600 text-white"
-                : page === "..."
-                ? "text-gray-400"
-                : "text-gray-600 hover:bg-gray-100"
-            }`}
-          >
-            {page}
-          </button>
-        ))}
-
-        <button
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm transition-colors ${
-            currentPage === totalPages
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-gray-500 hover:bg-gray-100"
-          }`}
-        >
-          ›
-        </button>
-      </div>
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="px-4 py-2 border border-gray-300 rounded-md text-sm font-semibold text-gray-800 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Siguiente
+      </button>
     </div>
-  );
+  </div>
+);
 }

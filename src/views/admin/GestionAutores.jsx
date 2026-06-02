@@ -75,7 +75,7 @@ function GestionAutores() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] font-sans">
+    <div className="min-h-screen bg-[#f7f4ef] font-serif">
 
       {/* Menú lateral fijo */}
       <Sidebar />
@@ -92,7 +92,11 @@ function GestionAutores() {
           {/* Bloque superior: Título, descripción y botón de acción */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-bold text-gray-800">Gestión de autores</h2>
+              <h2
+                className="text-4xl text-gray-900"
+                style={{ fontFamily: "'Playfair Display', serif" }}>
+                Gestión de autores
+              </h2>
               
             </div>
             <div>

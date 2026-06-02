@@ -1,7 +1,7 @@
 import { useState } from "react";
-import HeaderAdmin from "../components/HeaderAdmin";
-import Sidebar from "../components/Sidebar";
-import Pagination from "../components/Pagination";
+import HeaderAdmin from "../../components/HeaderAdmin";
+import Sidebar from "../../components/Sidebar";
+import Pagination from "../../components/Pagination";
 
 const TODOS_LOS_PEDIDOS = [
   { id: "#ORD-8821", num: 1,  cliente: "Usuario #8821", productos: "Don Quijote de la Mancha, +2 más",      total: "1.240,00",  status: "CONFIRMADO" },
@@ -38,75 +38,6 @@ const AVATAR_COLORS = [
   "#BE185D","#15803D","#1D4ED8","#9333EA","#EA580C",
   "#0D9488","#B45309","#4F46E5","#DB2777","#16A34A",
 ];
-
-{/*
-function Pagination({ currentPage, totalPages, onPageChange }) {
-  const getPages = () => {
-    // Si hay pocas páginas, mostrar todas
-    if (totalPages <= 7) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-    const pages = [1];
-    if (currentPage > 3)           pages.push("...");
-    if (currentPage > 2)           pages.push(currentPage - 1);
-    if (currentPage !== 1 && currentPage !== totalPages) pages.push(currentPage);
-    if (currentPage < totalPages - 1) pages.push(currentPage + 1);
-    if (currentPage < totalPages - 2) pages.push("...");
-    pages.push(totalPages);
-    return [...new Set(pages)]; // elimina duplicados
-  };
-
-  return (
-    <div className="px-6 py-4 flex items-center justify-between border-t border-gray-100 flex-wrap gap-3">
-      <p className="text-xs text-gray-400">
-        Mostrando {(currentPage - 1) * ITEMS_POR_PAGINA + 1} a{" "}
-        {Math.min(currentPage * ITEMS_POR_PAGINA, TODOS_LOS_PEDIDOS.length)} de{" "}
-        {TODOS_LOS_PEDIDOS.length} resultados
-      </p>
-
-      {/* Controles de paginación */} 
-
-{/*      <div className="flex items-center gap-1">
-        {/* Botón anterior */}
-{/*        <button
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm transition-colors
-            ${currentPage === 1
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-gray-500 hover:bg-gray-100 cursor-pointer"}`}
-        >‹</button>
-
-        {getPages().map((page, index) => (
-          <button
-            key={`${page}-${index}`}
-            onClick={() => typeof page === "number" && onPageChange(page)}
-            disabled={page === "..."}
-            className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors
-              ${page === currentPage
-                ? "bg-purple-600 text-white shadow-sm"          // página activa
-                : page === "..."
-                  ? "text-gray-400 cursor-default"              // separador
-                  : "text-gray-600 hover:bg-gray-100 cursor-pointer"}`}
-          >
-            {page}
-          </button>
-        ))}
-
-        {/* Botón siguiente */}
-{/*        <button
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm transition-colors
-            ${currentPage === totalPages
-              ? "text-gray-300 cursor-not-allowed"
-              : "text-gray-500 hover:bg-gray-100 cursor-pointer"}`}
-        >›</button>
-      </div>
-    </div>
-  );
-}
-*/}
 // ─────────────────────────────────────────────────────────────
 // PRINCIPAL: TodosLosPedidos
 // ─────────────────────────────────────────────────────────────
@@ -138,7 +69,7 @@ export default function VerPedidos() {
 
 
   return (
-    <div className="min-h-screen bg-[#f7f4ef] font-sans">
+    <div className="min-h-screen bg-[#f7f4ef] font-serif">
 
       <Sidebar />
 
@@ -152,7 +83,11 @@ export default function VerPedidos() {
 
           {/* Encabezado */}
           <div>
-            <h2 className="text-3xl font-bold text-gray-800">Todos los Pedidos</h2>
+            <h2
+              className="text-4xl text-gray-900"
+              style={{ fontFamily: "'Playfair Display', serif" }}>
+              Todos los pedidos
+            </h2>
             <p className="text-sm text-gray-400 mt-1">Gestión de todos los pedidos</p>
           </div>
 

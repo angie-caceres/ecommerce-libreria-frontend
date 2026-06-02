@@ -1,14 +1,12 @@
 import { useState } from "react";
-import HeaderAdmin from "../components/HeaderAdmin";
-import Sidebar from "../components/Sidebar";
-import { DESCUENTOS_MOCK } from "./CrearDescuento";
+import HeaderAdmin from "../../components/HeaderAdmin";
+import Sidebar from "../../components/Sidebar";
 
 const LIBRO_MOCK = {
   titulo:      "Cien años de soledad",
   descripcion: "La obra maestra de Gabriel García Márquez, un hito del realismo mágico que narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo.",
   paginas:     "356",
   precio:      "12500.00",
-  descuentoId:   "10",
   stock:       24,
   genero:      "Clásicos Literarios",
   editorial:   "L'Atelier Press",
@@ -46,7 +44,6 @@ export default function EditarLibro() {
     descripcion: LIBRO_MOCK.descripcion,
     paginas:     LIBRO_MOCK.paginas,
     precio:      LIBRO_MOCK.precio,
-    descuentoId:   "1",
     genero:      LIBRO_MOCK.genero,
     editorial:   LIBRO_MOCK.editorial,
   });
@@ -127,7 +124,6 @@ export default function EditarLibro() {
     setForm({
       titulo: LIBRO_MOCK.titulo, descripcion: LIBRO_MOCK.descripcion,
       paginas: LIBRO_MOCK.paginas, precio: LIBRO_MOCK.precio,
-      descuentoId: "1", genero: LIBRO_MOCK.genero,
       editorial: LIBRO_MOCK.editorial,
     });
     setStock(LIBRO_MOCK.stock);
@@ -141,7 +137,7 @@ export default function EditarLibro() {
     : "bg-red-100 text-red-700 border border-red-200";
 
   return (
-  <div className="min-h-screen bg-[#f7f4ef] font-sans">
+  <div className="min-h-screen bg-[#f7f4ef] font-serif">
 
     {/* Menú lateral */}
     <Sidebar />
@@ -156,7 +152,9 @@ export default function EditarLibro() {
 
         {/* Encabezado de la página */}
         <div>
-          <h2 className="text-3xl font-bold text-gray-800">
+          <h2
+            className="text-4xl font-bold text-gray-900"
+            style={{ fontFamily: "'Playfair Display', serif" }}>
             Editar Libro
           </h2>
 
@@ -189,61 +187,53 @@ export default function EditarLibro() {
                   rows={5} className={`${inputClass} resize-none`} />
               </FormField>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <FormField label="Páginas">
-                  <input type="number" name="paginas"
-                    value={form.paginas} onChange={handleChange}
-                    min="1" className={inputClass} />
-                </FormField>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-5">
 
-                <FormField label="Precio (ARS)">
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">$</span>
-                    <input type="number" name="precio"
-                      value={form.precio} onChange={handleChange}
-                      min="0" step="0.01" className={`${inputClass} pl-7`} />
-                  </div>
-                  {errors.precio && <p className="text-xs text-red-500">{errors.precio}</p>}
-                </FormField>
+              <FormField label="Páginas">
+                <input
+                  type="number"
+                  name="paginas"
+                  value={form.paginas}
+                  onChange={handleChange}
+                  placeholder="452"
+                  min="1"
+                  className={inputClass}
+                />
+              </FormField>
 
-                <FormField label="Descuento">
-                    <select
-                        name="descuentoId"
-                        value={form.descuentoId}
-                        onChange={handleChange}
-                        className={`${inputClass} appearance-none cursor-pointer`}
-                    >
-                        <option value="">Seleccionar descuento</option>
-
-                        {DESCUENTOS_MOCK.map((descuento) => (
-                            <option key={descuento.id} value={descuento.id}>
-                                {descuento.nombre} - {descuento.porcentaje}%
-                            </option>
-                         ))}
-                    </select>
-                </FormField>
-              </div>
-
-              <FormField label="Stock disponible">
-                <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
-                  <button
-                    onClick={decrementStock}
-                    className="px-5 py-2.5 text-gray-500 hover:bg-gray-100 text-lg font-bold transition-colors border-r border-gray-200">
-                    −
-                  </button>
+              <FormField label="Precio (ARS)">
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">$</span>
                   <input
                     type="number"
-                    value={stock}
-                    onChange={(e) => setStock(Math.max(0, parseInt(e.target.value) || 0))}
-                    className="flex-1 text-center text-sm font-semibold text-gray-700 py-2.5 border-0 focus:outline-none focus:ring-0"
+                    name="precio"
+                    value={form.precio}
+                    onChange={handleChange}
+                    placeholder="0.00"
+                    min="0"
+                    step="0.01"
+                    className={`${inputClass} pl-7`}
                   />
-                  <button
-                    onClick={incrementStock}
-                    className="px-5 py-2.5 text-gray-500 hover:bg-gray-100 text-lg font-bold transition-colors border-l border-gray-200">
-                    +
-                  </button>
                 </div>
-              </FormField>
+                {errors.precio && (
+                  <p className="text-xs text-red-500 mt-0.5">{errors.precio}</p>
+                )}
+            </FormField>
+             <FormField label="Stock disponible">
+              <input
+                type="number"
+                name="stock"
+                value={form.stock}
+                onChange={handleChange}
+                placeholder="Ej: 50"
+                min="0"
+                className={inputClass}
+              />
+              {errors.stock && (
+                <p className="text-xs text-red-500 mt-0.5">{errors.stock}</p>
+              )}
+            </FormField>
+            </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormField label="Género">

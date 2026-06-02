@@ -19,6 +19,11 @@ import GestionDescuentos from './views/admin/GestionDescuentos'
 import HeaderAdmin from './components/HeaderAdmin'
 import Sidebar from './components/Sidebar'
 import Pagination from './components/Pagination'
+import AdminDashboard from './views/admin/AdminDashboard'
+import CrearLibro from './views/admin/CrearLibro'
+import EditarLibro from './views/admin/EditarLibro'
+import GestionUsuario from './views/admin/GestionUsuario'
+import VerPedidos from './views/admin/VerPedidos'
 
 function App() {
 
@@ -128,6 +133,11 @@ function App() {
         <Route path="/admin/editoriales" element={<GestionEditoriales />} />
         <Route path="/admin/autores" element={<GestionAutores />} />
         <Route path="/admin/descuentos" element={<GestionDescuentos />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/crear-libro" element={<CrearLibro />} />
+        <Route path="/admin/editar-libro" element={<EditarLibro />} />
+        <Route path="/admin/usuarios" element={<GestionUsuario />} />
+        <Route path="/admin/pedidos" element={<VerPedidos />} />
 
       </Routes>
       {/* RENDERIZADO CONDICIONAL: Solo muestra el Footer si NO es admin */}

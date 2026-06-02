@@ -1,4 +1,4 @@
-import { Bell, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 function Header() {
   return (
@@ -25,8 +25,6 @@ function Header() {
 
       {/* Perfil */}
       <div className="flex items-center gap-5">
-        <Bell size={18} className="text-gray-600" />
-
         <div className="w-9 h-9 rounded-full bg-purple-200 border border-purple-300 flex items-center justify-center text-purple-700 text-xs font-bold">
           AD
         </div>
