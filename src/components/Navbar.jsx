@@ -45,6 +45,7 @@ function Navbar({ carrito, usuario }) {
             placeholder="¿Qué estás buscando?"
             className="bg-transparent outline-none w-full text-sm text-gray-500"
           />
+          {/* EVENTO onClick — el botón dispara una acción al hacer click (PDF: Estados locales y props) */}
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
@@ -69,24 +70,6 @@ function Navbar({ carrito, usuario }) {
                 MIS ÓRDENES
               </Link>
 
-
-          {/* Ícono carrito — solo visible para usuarios */}
-          {usuario?.rol === 'usuario' && (
-            <Link to="/carrito" className="flex flex-col items-center gap-1 hover:text-purple-600 relative">
-              <div className="relative">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                {totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-purple-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                    {totalItems}
-                  </span>
-                )}
-              </div>
-              MI CARRITO
-            </Link>
-          )}
-=======
               {/* Mi Perfil — cuando está logueado lleva al perfil */}
               <Link to="/perfil" className="flex flex-col items-center gap-1 hover:text-purple-600">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -138,9 +121,15 @@ function Navbar({ carrito, usuario }) {
             Siempre se usa key única para que React identifique cada elemento
             (PDF: Renderizado condicional - Renderizado de listas) */}
         {navLinks.map((item) => (
+
+          // NavLink es igual a Link pero detecta si la ruta está activa (PDF: Routing)
           <NavLink
             key={item.to}
             to={item.to}
+
+            // RENDERIZADO CONDICIONAL con operador ternario
+            // Si isActive es true aplica estilos de activo, sino estilos normales
+            // (PDF: Renderizado condicional - Operador ternario)
             className={({ isActive }) =>
               isActive
                 ? 'text-white border-b-2 border-white pb-1'
