@@ -3,341 +3,289 @@
 LOGIN.JSX
 ====================================================
 
+VISTA LOGIN
 
-Vista Login.
+Representa una pantalla completa.
 
+Esta vista utiliza:
 
-Esta vista representa únicamente el contenido
-central de la pantalla.
-
-
-Navbar y Footer NO se renderizan aquí
-porque ya se encuentran en App.jsx.
-
+- FormInput (componente reutilizable)
+- useState (estado local)
+- React Router (Link y useNavigate)
 
 Teoría relacionada:
-- Routing React
 - Componentes React
-- Estado local con useState
+- Estado local
+- Props
+- Routing
 */
-
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-
+import FormInput from "../components/FormInput";
 import Quote from "../components/Quote";
-import AuthForm from "../components/AuthForm";
-
 
 function Login() {
-
 
   /*
   ====================================================
   useNavigate
   ====================================================
 
-
   Hook de React Router.
 
-
-  Permite cambiar de ruta mediante código.
-
-
-  En este caso:
-  Login → Perfil
-
+  Permite navegar entre vistas
+  sin recargar la página.
 
   Teoría:
-  Routing en aplicaciones SPA.
+  Routing SPA.
   */
 
-
   const navigate = useNavigate();
-
 
   /*
   ====================================================
   ESTADO LOCAL
   ====================================================
 
+  Guarda los datos del formulario.
 
-  useState almacena información que cambia.
-
-
-  React vuelve a renderizar el componente
-  automáticamente cuando cambia el estado.
-
+  React vuelve a renderizar
+  cuando cambia el estado.
 
   Teoría:
-  Estados locales en React.
+  useState.
   */
-
 
   const [formData, setFormData] = useState({
 
-
     email: "",
-
 
     password: ""
 
-
   });
-
-
-  /*
-  ====================================================
-  CONFIGURACIÓN DE CAMPOS
-  ====================================================
-
-
-  Este array describe los inputs que
-  AuthForm debe generar.
-
-
-  Gracias a esto evitamos escribir
-  manualmente cada input.
-
-
-  Reutilización de componentes.
-  */
-
-
-  const fields = [
-
-
-    {
-      label: "Correo electrónico",
-      name: "email",
-      type: "email",
-      placeholder: "ejemplo@libros.com"
-    },
-
-
-    {
-      label: "Contraseña",
-      name: "password",
-      type: "password"
-    }
-
-
-  ];
-
 
   /*
   ====================================================
   EVENTO onChange
   ====================================================
 
+  Se ejecuta cada vez que el usuario escribe.
 
-  Se ejecuta cuando el usuario escribe.
-
-
-  React captura el evento del DOM
-  y actualiza el estado.
-
+  Actualiza el estado local.
 
   Teoría:
-  Eventos DOM + useState.
+  Eventos DOM + Estado local.
   */
-
 
   const handleChange = (e) => {
 
-
     setFormData({
 
-
       ...formData,
-
 
       [e.target.name]:
         e.target.value
 
-
     });
 
-
   };
-
 
   /*
   ====================================================
   EVENTO onSubmit
   ====================================================
 
+  Cuando el usuario presiona
+  INICIAR SESIÓN.
 
-  Se ejecuta cuando el usuario
-  presiona INICIAR SESIÓN.
+  preventDefault evita el refresco.
 
-
-  preventDefault evita que el navegador
-  recargue la página.
-
-
-  navigate cambia la vista a Perfil.
-
+  Luego React Router navega a la
+  pantalla de confirmación.
 
   Teoría:
-  Eventos del DOM + Routing React.
+  Eventos DOM + Routing.
   */
-
 
   const handleSubmit = (e) => {
 
-
     e.preventDefault();
-
 
     navigate("/confirmacion-registro");
 
-
   };
 
-
   return (
-
 
     <main
       className="
         bg-[#faf7f5]
         min-h-screen
-        py-10
         px-4
+        py-10
       "
     >
 
+      {/* CONTENEDOR PRINCIPAL */}
 
-      <AuthForm
+      <section
+        className="
+          mx-auto
+          max-w-6xl
+          border
+          border-[#ead8d4]
+          bg-white
+          px-8
+          py-12
+          shadow-sm
+          md:px-20
+        "
+      >
 
+        {/* CABECERA */}
 
-        /*
-        Título principal
-        */
+        <div className="mb-14 text-center">
 
+          <h1
+            className="
+              font-serif
+              text-5xl
+              text-[#351118]
+            "
+          >
+            Bienvenido
+          </h1>
 
-        title="Bienvenido"
+          <p className="mt-4 text-gray-500">
+            Accede a tu santuario literario personal.
+          </p>
 
+        </div>
 
-        /*
-        Subtítulo
-        */
+        {/* FORMULARIO */}
 
+        <form onSubmit={handleSubmit}>
 
-        subtitle="Accede a tu santuario literario personal."
+          <FormInput
 
+            label="Correo electrónico"
 
-        /*
-        Campos que debe generar AuthForm
-        */
+            name="email"
 
+            type="email"
 
-        fields={fields}
+            value={formData.email}
 
+            onChange={handleChange}
 
-        /*
-        Estado del formulario
-        */
+            placeholder="ejemplo@libros.com"
 
+          />
 
-        formData={formData}
+          <FormInput
 
+            label="Contraseña"
 
-        /*
-        Evento de escritura
-        */
+            name="password"
 
+            type="password"
 
-        onChange={handleChange}
+            value={formData.password}
 
+            onChange={handleChange}
 
-        /*
-        Texto del botón
-        */
+          />
 
+          {/* RECUPERAR CONTRASEÑA */}
 
-        buttonText="INICIAR SESIÓN"
+          <div className="mb-10 text-right">
 
-
-        /*
-        Evento submit
-        */
-
-
-        onSubmit={handleSubmit}
-
-
-        /*
-        Texto inferior
-        */
-
-
-        footerContent={
-
-
-          <>
-            ¿No tienes una cuenta?{" "}
-
-
-            <Link
-
-
-              to="/registro"
-
-
+            <button
+              type="button"
               className="
-                text-[#7d6296]
-                font-semibold
+                text-sm
+                text-gray-500
                 hover:underline
               "
-
-
             >
-              Regístrese
-            </Link>
+              Olvidé mi contraseña
+            </button>
 
+          </div>
 
-          </>
+          {/* BOTÓN LOGIN */}
 
+          <button
 
-        }
+            type="submit"
 
+            className="
+              w-full
+              bg-[#4b385c]
+              py-4
 
-      />
+              text-sm
+              font-semibold
 
+              tracking-[0.25em]
 
-      {/* Frase literaria */}
+              text-white
 
+              transition
+              hover:bg-[#382943]
+            "
+
+          >
+            INICIAR SESIÓN
+          </button>
+
+        </form>
+
+        {/* LINK REGISTRO */}
+
+        <div className="mt-10 text-center">
+
+          ¿No tienes una cuenta?{" "}
+
+          <Link
+
+            to="/registro"
+
+            className="
+              font-semibold
+              text-[#7d6296]
+              hover:underline
+            "
+
+          >
+            Regístrese
+          </Link>
+
+        </div>
+
+      </section>
+
+      {/* FRASE LITERARIA */}
 
       <div
         className="
-        max-w-6xl
-        mx-auto
-        mt-8
-      "
+          mx-auto
+          mt-8
+          max-w-6xl
+        "
       >
-
 
         <Quote />
 
-
       </div>
-
 
     </main>
 
-
   );
+
 }
 
-
 export default Login;
-
-
-
-
-
-
 

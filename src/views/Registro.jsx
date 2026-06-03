@@ -3,30 +3,31 @@
 REGISTRO.JSX
 ====================================================
 
-Vista Registro.
+VISTA REGISTRO
 
-Esta vista reutiliza AuthForm y FormInput.
+Representa una pantalla completa.
 
-Buenas prácticas aplicadas:
+Permite que el usuario cree una cuenta.
 
-✔ Reutilización de componentes
-✔ Estado local con useState
-✔ Props
-✔ Flujo unidireccional
-✔ React Router
+Utiliza:
 
-Teoría relacionada:
-Estados locales y props.
-Componentes React.
-Routing.
+- FormInput
+- useState
+- Link
+- useNavigate
+
+Teoría:
+- Componentes React
+- Estado local
+- Props
+- Routing
 */
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import Quote from "../components/Quote";
-import AuthForm from "../components/AuthForm";
 import FormInput from "../components/FormInput";
+import Quote from "../components/Quote";
 
 function Registro() {
 
@@ -34,6 +35,8 @@ function Registro() {
   ====================================================
   useNavigate
   ====================================================
+
+  Hook de React Router.
 
   Permite navegar a otra vista
   sin recargar la página.
@@ -43,7 +46,7 @@ function Registro() {
   ConfirmacionRegistro
 
   Teoría:
-  Routing React.
+  Routing SPA.
   */
 
   const navigate = useNavigate();
@@ -53,8 +56,8 @@ function Registro() {
   ESTADO LOCAL
   ====================================================
 
-  Guarda la información que escribe
-  el usuario.
+  Guarda los datos ingresados
+  por el usuario.
 
   React vuelve a renderizar
   automáticamente cuando cambia.
@@ -63,60 +66,26 @@ function Registro() {
   useState.
   */
 
-  const [usuario, setUsuario] =
-    useState({
+  const [usuario, setUsuario] = useState({
 
-      nombre: "",
+    nombre: "",
 
-      email: "",
+    email: "",
 
-      password: "",
+    password: "",
 
-      confirmar: ""
+    confirmar: ""
 
-    });
-
-  /*
-  ====================================================
-  CAMPOS PRINCIPALES
-  ====================================================
-
-  AuthForm utiliza este array
-  para construir dinámicamente
-  los inputs.
-
-  Ventaja:
-  no duplicamos código.
-  */
-
-  const fields = [
-
-    {
-      label: "Nombre completo",
-      name: "nombre",
-      placeholder:
-        "p. ej. Miguel de Cervantes"
-    },
-
-    {
-      label: "Correo electrónico",
-      name: "email",
-      type: "email",
-      placeholder:
-        "ejemplo@libro.com"
-    }
-
-  ];
+  });
 
   /*
   ====================================================
-  onChange
+  EVENTO onChange
   ====================================================
 
-  Evento del DOM.
+  Se ejecuta cuando el usuario escribe.
 
-  Se ejecuta cada vez que
-  el usuario escribe.
+  Actualiza el estado local.
 
   Teoría:
   Eventos DOM + Estado local.
@@ -137,16 +106,16 @@ function Registro() {
 
   /*
   ====================================================
-  onSubmit
+  EVENTO onSubmit
   ====================================================
 
-  Cuando el usuario presiona
-  REGISTRARSE.
+  Se ejecuta cuando el usuario
+  presiona REGISTRARSE.
 
   preventDefault evita el refresco.
 
-  Luego React Router cambia
-  a ConfirmacionRegistro.
+  Luego React Router navega a la
+  pantalla de confirmación.
 
   Teoría:
   Eventos DOM + Routing.
@@ -166,148 +135,189 @@ function Registro() {
       className="
         bg-[#faf7f5]
         min-h-screen
-        py-10
         px-4
+        py-10
       "
     >
 
-      <AuthForm
+      {/* CONTENEDOR PRINCIPAL */}
 
-        /*
-        Cabecera
-        */
-
-        title="Crear Cuenta"
-
-        subtitle="Únase a nuestra selecta comunidad de bibliófilos."
-
-        /*
-        Inputs principales
-        */
-
-        fields={fields}
-
-        /*
-        Estado
-        */
-
-        formData={usuario}
-
-        /*
-        Evento escritura
-        */
-
-        onChange={handleChange}
-
-        /*
-        Texto botón
-        */
-
-        buttonText="REGISTRARSE"
-
-        /*
-        Evento submit
-        */
-
-        onSubmit={handleSubmit}
-
-        /*
-        Texto inferior
-        */
-
-        footerContent={
-
-          <>
-            ¿Ya tienes una cuenta?{" "}
-
-            <Link
-
-              to="/login"
-
-              className="
-                text-[#7d6296]
-                font-semibold
-                hover:underline
-              "
-
-            >
-              Iniciar sesión
-            </Link>
-
-          </>
-
-        }
-
+      <section
+        className="
+          mx-auto
+          max-w-6xl
+          border
+          border-[#ead8d4]
+          bg-white
+          px-8
+          py-12
+          shadow-sm
+          md:px-20
+        "
       >
 
-        {/*
+        {/* CABECERA */}
 
-        children
+        <div className="mb-14 text-center">
 
-        AuthForm permite insertar
-        contenido adicional.
+          <h1
+            className="
+              font-serif
+              text-5xl
+              text-[#351118]
+            "
+          >
+            Crear Cuenta
+          </h1>
 
-        En este caso:
-
-        Contraseña
-        Confirmación
-
-        */}
-
-        <div
-          className="
-            grid
-            md:grid-cols-2
-            gap-20
-          "
-        >
-
-          <FormInput
-
-            label="Contraseña"
-
-            name="password"
-
-            type="password"
-
-            value={usuario.password}
-
-            onChange={handleChange}
-
-          />
-
-          <FormInput
-
-            label="Confirmar"
-
-            name="confirmar"
-
-            type="password"
-
-            value={usuario.confirmar}
-
-            onChange={handleChange}
-
-          />
+          <p className="mt-4 text-gray-500">
+            Únase a nuestra selecta comunidad de bibliófilos.
+          </p>
 
         </div>
 
-      </AuthForm>
+        {/* FORMULARIO */}
 
-      {/*
+        <form onSubmit={handleSubmit}>
 
-      Frase literaria.
+          {/* NOMBRE */}
 
-      Componente reutilizable.
+          <FormInput
 
-      */}
+            label="Nombre completo"
+
+            name="nombre"
+
+            value={usuario.nombre}
+
+            onChange={handleChange}
+
+            placeholder="Ej: Miguel de Cervantes"
+
+          />
+
+          {/* EMAIL */}
+
+          <FormInput
+
+            label="Correo electrónico"
+
+            name="email"
+
+            type="email"
+
+            value={usuario.email}
+
+            onChange={handleChange}
+
+            placeholder="ejemplo@libros.com"
+
+          />
+
+          {/* PASSWORDS */}
+
+          <div
+            className="
+              grid
+              gap-10
+              md:grid-cols-2
+            "
+          >
+
+            <FormInput
+
+              label="Contraseña"
+
+              name="password"
+
+              type="password"
+
+              value={usuario.password}
+
+              onChange={handleChange}
+
+            />
+
+            <FormInput
+
+              label="Confirmar"
+
+              name="confirmar"
+
+              type="password"
+
+              value={usuario.confirmar}
+
+              onChange={handleChange}
+
+            />
+
+          </div>
+
+          {/* BOTÓN REGISTRO */}
+
+          <button
+
+            type="submit"
+
+            className="
+              mt-10
+
+              w-full
+
+              bg-[#4b385c]
+
+              py-4
+
+              text-sm
+              font-semibold
+
+              tracking-[0.25em]
+
+              text-white
+
+              transition
+              hover:bg-[#382943]
+            "
+
+          >
+            REGISTRARSE
+          </button>
+
+        </form>
+
+        {/* LINK LOGIN */}
+
+        <div className="mt-10 text-center">
+
+          ¿Ya tienes una cuenta?{" "}
+
+          <Link
+
+            to="/login"
+
+            className="
+              font-semibold
+              text-[#7d6296]
+              hover:underline
+            "
+
+          >
+            Iniciar sesión
+          </Link>
+
+        </div>
+
+      </section>
+
+      {/* FRASE LITERARIA */}
 
       <div
         className="
-        max-w-6xl
-        mx-auto
-        mt-8
-      "
+          mx-auto
+          mt-8
+          max-w-6xl
+        "
       >
 
         <Quote />
@@ -317,6 +327,7 @@ function Registro() {
     </main>
 
   );
+
 }
 
 export default Registro;

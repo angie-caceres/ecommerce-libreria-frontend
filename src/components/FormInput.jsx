@@ -3,83 +3,117 @@
 FORMINPUT.JSX
 =====================================================
 
-Este componente representa un único campo del formulario.
+COMPONENTE REUTILIZABLE
 
-La teoría de React indica que un componente es una
-función JavaScript que devuelve JSX y puede reutilizarse
-en distintas partes de la aplicación.
+Este componente representa un único campo
+de entrada de datos (input).
 
-En este proyecto se reutiliza en:
+Se reutiliza en:
 
 - Login
 - Registro
 - Perfil
+- EditarPerfil
 
-De esta forma evitamos duplicar código.
+¿Por qué existe?
+
+Porque React promueve la reutilización de
+componentes para evitar duplicar código.
+
+En lugar de escribir varias veces:
+
+<label>...</label>
+<input ... />
+
+se encapsula esa lógica en un único componente.
 
 Teoría relacionada:
-Componentes React
-(Exposición de experto + Estados y Props)
+- Componentes React
+- Props
+- Reutilización
+*/
+
+/*
+=====================================================
+COMPONENTE
+=====================================================
+
+Un componente React es una función JavaScript
+que devuelve JSX.
+
+Teoría:
+"Un componente es una función que devuelve JSX"
 */
 
 function FormInput({
 
   /*
-  Props recibidas desde el componente padre.
+  ===================================================
+  PROPS
+  ===================================================
 
-  Según la teoría:
+  Las props son datos enviados por el componente padre.
 
-  Las props son el mecanismo que permite que un
-  componente padre envíe información a un hijo.
+  Teoría:
+  Las props permiten la comunicación entre
+  componentes.
 
   Son de solo lectura.
-
-  En este caso AuthForm envía la información
-  necesaria para construir cada input.
   */
 
   label,
+
   name,
+
   type = "text",
+
   value,
+
   onChange,
-  placeholder = ""
+
+  placeholder = "",
+
+  required = false
 
 }) {
 
   /*
-  El componente retorna JSX.
+  ===================================================
+  JSX
+  ===================================================
 
-  JSX es la mezcla entre JavaScript y HTML
-  que React utiliza para construir la interfaz.
+  JSX es la combinación entre JavaScript y HTML
+  que utiliza React para construir interfaces.
 
-  Teoría:
-  "Un componente es una función JavaScript
-  que devuelve JSX".
+  React transforma este JSX en elementos del DOM.
   */
 
   return (
 
     /*
-    Contenedor del input.
+    =================================================
+    CONTENEDOR
+    =================================================
 
-    w-full = ocupa todo el ancho disponible.
+    Agrupa label + input.
 
-    mb-8 = margen inferior.
-
-    Tailwind permite aplicar estilos mediante clases.
+    Tailwind:
+    w-full = ancho completo
+    mb-8 = margen inferior
     */
 
-    <div className="w-full">
+    <div className="w-full mb-8">
 
       {/*
+      ================================================
       LABEL
+      ================================================
 
-      Muestra el nombre del campo.
+      Muestra el texto descriptivo del campo.
 
       htmlFor conecta el label con el input.
 
-      Esto mejora accesibilidad.
+      Mejora accesibilidad.
       */}
 
       <label
@@ -99,16 +133,13 @@ function FormInput({
       >
 
         {/*
-        Renderizamos dinámicamente el texto
-        recibido mediante props.
+        Renderizado dinámico.
 
         Ejemplos:
 
-        label="Correo electrónico"
-
-        label="Contraseña"
-
-        label="Nombre completo"
+        Correo electrónico
+        Contraseña
+        Nombre completo
         */}
 
         {label}
@@ -116,74 +147,68 @@ function FormInput({
       </label>
 
       {/*
+      ================================================
       INPUT
+      ================================================
 
-      Campo de entrada reutilizable.
+      Campo reutilizable.
 
-      El mismo componente sirve para:
+      Puede funcionar como:
 
-      email
-      password
-      nombre
-      apellido
-      etc.
+      - text
+      - email
+      - password
+
+      dependiendo del valor recibido en type.
       */}
 
       <input
 
         /*
-        ID asociado al label.
+        Identificador único.
 
-        Se recibe mediante props.
+        Se vincula con htmlFor.
         */
         id={name}
 
         /*
         Nombre del campo.
 
-        Se usa para identificar qué valor
-        debe actualizarse.
+        Permite identificar qué propiedad
+        debe actualizar React.
         */
         name={name}
 
         /*
         Tipo del input.
 
-        Puede ser:
-
         text
         email
         password
-
-        según la vista.
         */
         type={type}
 
         /*
-        Value transforma el input
-        en un componente controlado.
+        Valor controlado por React.
 
-        React controla el valor
-        mostrado en pantalla.
+        El valor viene desde useState
+        del componente padre.
 
-        Esto está relacionado con el estado local.
+        Teoría:
+        Componentes controlados.
         */
         value={value}
 
         /*
         Evento del DOM.
 
-        Se ejecuta cada vez que el usuario
-        escribe algo.
+        Se ejecuta cuando el usuario escribe.
 
-        Teoría relacionada:
-        Eventos del DOM
+        React captura el evento y actualiza
+        el estado.
 
-        input
-        change
-
-        React utiliza onChange para capturar
-        los cambios.
+        Teoría:
+        Eventos DOM.
         */
         onChange={onChange}
 
@@ -192,36 +217,57 @@ function FormInput({
         */
         placeholder={placeholder}
 
+        /*
+        Campo obligatorio.
+
+        No agrega lógica de negocio.
+        Sólo comportamiento HTML.
+        */
+        required={required}
+
         className="
           w-full
           bg-transparent
+
           border-b
           border-[#cbbfc2]
+
           pb-4
-          outline-none
+
           text-lg
+          text-[#2d2528]
+
+          placeholder:text-gray-400
+
+          outline-none
+
+          focus:border-[#544166]
+
+          transition
         "
       />
 
     </div>
 
   );
+
 }
 
 /*
-Exportamos el componente.
+=====================================================
+EXPORTACIÓN
+=====================================================
 
-Esto permite reutilizarlo
-en Login, Registro y Perfil.
+Permite importar este componente
+en otros archivos.
+
+Ejemplos:
+
+import FormInput from "../components/FormInput";
 
 Teoría:
 Módulos ES6.
-Cada componente vive en su propio archivo
-y puede importarse en otros componentes.
 */
 
 export default FormInput;
-
-
-
 
