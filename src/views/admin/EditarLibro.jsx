@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import HeaderAdmin from "../../components/HeaderAdmin";
 import Sidebar from "../../components/Sidebar";
+import Alerta from "../../components/Alerta";
 
 const LIBROS_MOCK = [
   { id: 1, titulo: "Amanecer en la cosecha", autor: "Suzanne Collins", genero: "Distopía", precioOriginal: 40000, descuento: "-10%" },
@@ -58,6 +59,7 @@ export default function EditarLibro() {
   const [stock, setStock] = useState(0);
 
   const [updated, setUpdated]         = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [errors, setErrors]           = useState({});
 
   const handleChange = (e) => {
@@ -90,7 +92,6 @@ export default function EditarLibro() {
     };
 
   const handleSubmit = () => {
-    console.log("Botón actualizar presionado");
     const newErrors = validate();
 
     if (Object.keys(newErrors).length > 0) {
@@ -98,10 +99,14 @@ export default function EditarLibro() {
       return;
     }
 
-    const payload = { ...form, stock };
+    setShowConfirm(true);
+  };
 
+  const handleConfirm = () => {
+    const payload = { ...form, stock };
     console.log("Libro actualizado:", payload);
 
+    setShowConfirm(false);
     setUpdated(true);
     setTimeout(() => setUpdated(false), 3000);
   };
@@ -152,6 +157,16 @@ const handleCancel = () => {
             Modifica los detalles de la obra literaria.
           </p>
         </div>
+
+          {showConfirm && (
+            <Alerta
+              texto="¿Confirmás la actualización del libro?"
+              linkTexto="Cancelar"
+              linkRuta="/admin/libros"
+              onConfirm={handleConfirm}
+              confirmTexto="Confirmar"
+            />
+          )}
 
           {updated && (
             <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl text-sm font-medium">
