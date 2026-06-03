@@ -25,6 +25,32 @@ function App() {
   // Array de objetos, cada uno representa un libro agregado
   // (PDF: Estados locales y props - useState)
   const [carrito, setCarrito] = useState([])
+ /*
+====================================================
+ESTADO GLOBAL DEL USUARIO
+====================================================
+
+Registro modifica usuario.
+Perfil muestra usuario.
+EditarPerfil modifica usuario.
+
+Por eso el estado vive en App.
+
+Teoría:
+Lifting State Up.
+Flujo unidireccional.
+*/
+
+const [usuario, setUsuario] = useState({
+
+nombre: "",
+
+email: "",
+
+password: ""
+
+}); 
+
 
   // FUNCIÓN para agregar un libro al carrito
   // Se pasa como PROP a DetalleLibro (PDF: Estados locales y props - Props)
@@ -116,19 +142,30 @@ function App() {
         <Route path="/login" 
         element={<Login />} />
         
-        {/* Registro */}
-        <Route path="/registro" 
-        element={<Registro/>} 
-        />
-       
+        {/* registro */}
+        <Route
+        path="/registro"
+        element={
+           <Registro
+            usuario={usuario}
+            setUsuario={setUsuario}
+            />
+            }
+            />
+      
         {/* Confirmación de registro */}
         <Route path="/confirmacion-registro" 
         element={<ConfirmacionRegistro />} />
         
         {/* Perfil */}
-        <Route path="/perfil" 
-        element={<Perfil/>} 
-        />
+        <Route
+        path="/perfil"
+        element={
+           <Perfil
+            usuario={usuario}
+            />
+            }
+            />
         {/* Editar perfil */}
         <Route path="/editar-perfil" 
         element={<EditarPerfil />} 

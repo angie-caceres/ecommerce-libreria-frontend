@@ -5,21 +5,16 @@ REGISTRO.JSX
 
 VISTA REGISTRO
 
-Representa una pantalla completa.
+Responsabilidad:
 
-Permite que el usuario cree una cuenta.
-
-Utiliza:
-
-- FormInput
-- useState
-- Link
-- useNavigate
+- Mostrar formulario de registro.
+- Actualizar el usuario global.
+- Navegar a ConfirmacionRegistro.
 
 Teoría:
 - Componentes React
-- Estado local
 - Props
+- Estado compartido
 - Routing
 */
 
@@ -29,24 +24,37 @@ import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../components/FormInput";
 import Quote from "../components/Quote";
 
-function Registro() {
+/*
+====================================================
+PROPS
+====================================================
+
+usuario y setUsuario llegan desde App.
+
+App es el componente padre.
+
+Teoría:
+Props + Flujo unidireccional.
+*/
+
+function Registro({
+
+  usuario,
+
+  setUsuario
+
+}) {
 
   /*
   ====================================================
-  useNavigate
+  REACT ROUTER
   ====================================================
 
-  Hook de React Router.
-
-  Permite navegar a otra vista
-  sin recargar la página.
+  Permite navegar sin recargar.
 
   Registro
   ↓
   ConfirmacionRegistro
-
-  Teoría:
-  Routing SPA.
   */
 
   const navigate = useNavigate();
@@ -56,39 +64,25 @@ function Registro() {
   ESTADO LOCAL
   ====================================================
 
-  Guarda los datos ingresados
-  por el usuario.
+  Sólo para confirmar contraseña.
 
-  React vuelve a renderizar
-  automáticamente cuando cambia.
+  El usuario NO vive acá.
 
-  Teoría:
-  useState.
+  Vive en App.
   */
 
-  const [usuario, setUsuario] = useState({
-
-    nombre: "",
-
-    email: "",
-
-    password: "",
-
-    confirmar: ""
-
-  });
+  const [confirmar, setConfirmar] =
+    useState("");
 
   /*
   ====================================================
-  EVENTO onChange
+  onChange
   ====================================================
 
-  Se ejecuta cuando el usuario escribe.
-
-  Actualiza el estado local.
+  Actualiza el usuario global.
 
   Teoría:
-  Eventos DOM + Estado local.
+  Estado compartido.
   */
 
   const handleChange = (e) => {
@@ -106,16 +100,13 @@ function Registro() {
 
   /*
   ====================================================
-  EVENTO onSubmit
+  SUBMIT
   ====================================================
 
-  Se ejecuta cuando el usuario
-  presiona REGISTRARSE.
+  Envía el formulario.
 
-  preventDefault evita el refresco.
-
-  Luego React Router navega a la
-  pantalla de confirmación.
+  Luego navega a la pantalla
+  de confirmación.
 
   Teoría:
   Eventos DOM + Routing.
@@ -140,18 +131,21 @@ function Registro() {
       "
     >
 
-      {/* CONTENEDOR PRINCIPAL */}
-
       <section
         className="
           mx-auto
           max-w-6xl
+
           border
           border-[#ead8d4]
+
           bg-white
+
           px-8
           py-12
+
           shadow-sm
+
           md:px-20
         "
       >
@@ -246,15 +240,19 @@ function Registro() {
 
               type="password"
 
-              value={usuario.confirmar}
+              value={confirmar}
 
-              onChange={handleChange}
+              onChange={(e) =>
+                setConfirmar(
+                  e.target.value
+                )
+              }
 
             />
 
           </div>
 
-          {/* BOTÓN REGISTRO */}
+          {/* BOTÓN */}
 
           <button
 
@@ -310,7 +308,7 @@ function Registro() {
 
       </section>
 
-      {/* FRASE LITERARIA */}
+      {/* FRASE */}
 
       <div
         className="
@@ -331,4 +329,3 @@ function Registro() {
 }
 
 export default Registro;
-
