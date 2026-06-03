@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import HeaderAdmin from "../../components/HeaderAdmin";
 import Sidebar from "../../components/Sidebar";
 import Alerta from "../../components/Alerta";
@@ -53,6 +53,7 @@ const inputClass =
 // ─────────────────────────────────────────────────────────────
 export default function EditarLibro() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const libroActual = libros.find(
     (libro) => libro.id === Number(id)
   );
@@ -118,18 +119,7 @@ export default function EditarLibro() {
   };
 
 const handleCancel = () => {
-    setForm({
-      titulo: libroActual?.titulo || "",
-      descripcion: libroActual?.descripcion || "",
-      paginas: libroActual?.hojas || "",
-      precio: libroActual?.precioOriginal || "",
-      genero: libroActual?.categoria || "",
-      editorial: libroActual?.editorial || "",
-      autores: libroActual?.autor || "",
-      imagenId: libroActual?.imagen || "",
-    });
-    setStock(0);
-    setErrors({});
+    navigate("/admin/libros");
   };
 
   const estadoInventario = stock > 0 ? "EN CATÁLOGO" : "SIN STOCK";
