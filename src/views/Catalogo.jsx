@@ -28,7 +28,7 @@ const libros = [
     genero: 'Distopía',
     precio: 18000,
     descripcion: 'Una obra maestra definitiva de la filosofía moderna, esta primera edición limitada está encuadernada en cuero de ternera de color burdeos profundo, obtenido de forma ética. Con bordes de pan de oro de 24 quilates dorados a mano y un prólogo del descendiente directo del autor, representa la cumbre de la fabricación artesanal de libros.',
-    imagen: '/libros/1984.jpg'
+    imagen: '/libros/1984.png'
     },
     {
     id: 3,
