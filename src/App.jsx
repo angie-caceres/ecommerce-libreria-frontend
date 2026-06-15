@@ -118,6 +118,7 @@ function App() {
             <DetalleLibro
               agregarAlCarrito={agregarAlCarrito}
               puedeComprar={usuario?.rol === 'usuario'}
+              token={token}
             />
           }
         />

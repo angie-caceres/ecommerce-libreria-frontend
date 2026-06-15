@@ -5,19 +5,19 @@ import { useParams, Link } from 'react-router-dom'
 import DetalleLibroCard from '../components/DetalleLibroCard'
 import { apiFetch } from '../services/api'
 
-function DetalleLibro({ agregarAlCarrito, puedeComprar }) {
+function DetalleLibro({ agregarAlCarrito, puedeComprar,token }) {
 
   const { id } = useParams()
 
   // HOOK useState — estado local del libro y loading
-  // (PDF: Estados locales y props - useState)
+
   const [libro, setLibro] = useState(null)
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState(null)
 
   // HOOK useEffect — se ejecuta al montar el componente
   // Hace GET /libros/{id} al backend
-  // (PDF: useEffect - Llamadas a APIs / Ciclo de vida - Montaje)
+
   useEffect(() => {
     setCargando(true)
     apiFetch(`/libros/${id}`)
@@ -64,6 +64,7 @@ function DetalleLibro({ agregarAlCarrito, puedeComprar }) {
           libro={libro}
           agregarAlCarrito={agregarAlCarrito}
           puedeComprar={puedeComprar}
+          token={token}
         />
       )}
 
