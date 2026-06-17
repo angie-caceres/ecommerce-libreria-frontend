@@ -183,17 +183,17 @@ function App() {
         <Route path="/pedido" element={<ConfirmacionPedido />} />
 
         {/* Rutas admin — solo administradores */}
-        <Route path="/admin/generos" element={usuario?.rol === 'admin' ? <GestionGeneros /> : <Navigate to="/login" />} />
-        <Route path="/admin/editoriales" element={usuario?.rol === 'admin' ? <GestionEditoriales /> : <Navigate to="/login" />} />
-        <Route path="/admin/autores" element={usuario?.rol === 'admin' ? <GestionAutores /> : <Navigate to="/login" />} />
-        <Route path="/admin/descuentos" element={usuario?.rol === 'admin' ? <GestionDescuentos /> : <Navigate to="/login" />} />
-        <Route path="/admin" element={usuario?.rol === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />} />
-        <Route path="/admin/libros" element={usuario?.rol === 'admin' ? <GestionLibros /> : <Navigate to="/login" />} />
-        <Route path="/admin/libros/crear" element={usuario?.rol === 'admin' ? <CrearLibro /> : <Navigate to="/login" />} />
-        <Route path="/admin/libros/editar/:id" element={usuario?.rol === 'admin' ? <EditarLibro /> : <Navigate to="/login" />} />
-        <Route path="/admin/usuarios" element={usuario?.rol === 'admin' ? <GestionUsuario /> : <Navigate to="/login" />} />
-        <Route path="/admin/pedidos" element={usuario?.rol === 'admin' ? <VerPedidos /> : <Navigate to="/login" />} />
-        <Route path="/admin/imagenes" element={usuario?.rol === 'admin' ? <GestionImagenes /> : <Navigate to="/login" />} />
+        <Route path="/admin/generos" element={usuario?.rol === 'admin' ? <GestionGeneros token={token}/> : <Navigate to="/login" />} />
+        <Route path="/admin/editoriales" element={usuario?.rol === 'admin' ? <GestionEditoriales token={token} /> : <Navigate to="/login" />} />
+        <Route path="/admin/autores" element={usuario?.rol === 'admin' ? <GestionAutores token={token}/> : <Navigate to="/login" />} />
+        <Route path="/admin/descuentos" element={usuario?.rol === 'admin' ? <GestionDescuentos token={token}/> : <Navigate to="/login" />} />
+        <Route path="/admin" element={usuario?.rol === 'admin' ? <AdminDashboard token={token}/> : <Navigate to="/login" />} />
+        <Route path="/admin/libros" element={usuario?.rol === 'admin' ? <GestionLibros token={token}/> : <Navigate to="/login" />} />
+        <Route path="/admin/libros/crear" element={usuario?.rol === 'admin' ? <CrearLibro token={token}/> : <Navigate to="/login" />} />
+        <Route path="/admin/libros/editar/:id" element={usuario?.rol === 'admin' ? <EditarLibro token={token} /> : <Navigate to="/login" />} />
+        <Route path="/admin/usuarios" element={usuario?.rol === 'admin' ? <GestionUsuario token={token}/> : <Navigate to="/login" />} />
+        <Route path="/admin/pedidos" element={usuario?.rol === 'admin' ? <VerPedidos token={token}/> : <Navigate to="/login" />} />
+        <Route path="/admin/imagenes" element={usuario?.rol === 'admin' ? <GestionImagenes token={token}/> : <Navigate to="/login" />} />
 
         {/* Mis órdenes — solo usuarios */}
         <Route path="/mis-ordenes" element={usuario?.rol === 'usuario' ? <MisOrdenes usuario={usuario} /> : <Navigate to="/login" />} />

@@ -1,5 +1,5 @@
 // VISTA — gestión de géneros del panel admin
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Pencil, Trash2 } from 'lucide-react'
 import HeaderAdmin from "../../components/HeaderAdmin"
 import Sidebar from "../../components/Sidebar"
@@ -7,6 +7,7 @@ import Pagination from "../../components/Pagination"
 import ModalFormulario from "../../components/ModalFormulario"
 import ModalConfirmacion from "../../components/ModalConfirmacion"
 import EncabezadoSeccion from "../../components/EncabezadoSeccion"
+import { apiFetch } from '../../services/api'
 
 const generosIniciales = [
   { id: '#GEN-1', nombre: 'Fantasía',            libros: 87  },
@@ -23,7 +24,7 @@ const generosIniciales = [
 const POR_PAGINA = 9
 const inputClass = "w-full border border-purple-400 rounded-lg px-3 py-2 text-sm text-gray-700 outline-none focus:ring-2 focus:ring-purple-100"
 
-function GestionGeneros() {
+function GestionGeneros({token}) {
 
   // HOOK useState — estados locales del componente
   const [lista, setLista]       = useState(generosIniciales)
@@ -32,6 +33,35 @@ function GestionGeneros() {
   const [editItem, setEditItem] = useState(null)
   const [nombre, setNombre]     = useState('')
   const [deleteId, setDeleteId] = useState(null)
+  const [cargando, setCargando] = useState(false)
+  const [error, setError]       = useState(null)
+
+  // 1. EFECTO: Trae los géneros reales de MySQL al montar el componente
+  const cargarGeneros = async () => {
+    setCargando(true)
+    setError(null)
+    try {
+      const data = await apiFetch('/generos', token)
+      // Ajustamos el ID numérico si tu backend en Java devuelve 'id' o 'idGenero'
+      const datosFormateados = data.map(g => ({
+        id: g.id || g.idGenero,
+        nombre: g.nombre,
+        libros: g.cantidadLibros || 0 // Si tu backend calcula cuántos libros lo usan, sino por defecto 0
+      }))
+      setLista(datosFormateados)
+    } catch (err) {
+      setError('No se pudieron cargar los géneros desde el servidor.')
+      console.error(err)
+    } finally {
+      setCargando(false)
+    }
+  }
+
+  useEffect(() => {
+    if (token) {
+      cargarGeneros()
+    }
+  }, [token])
 
   const totalPaginas = Math.ceil(lista.length / POR_PAGINA)
   const paginados = lista.slice((pagina - 1) * POR_PAGINA, pagina * POR_PAGINA)
@@ -41,20 +71,46 @@ function GestionGeneros() {
   const cerrarModal = () => { setModal(null); setDeleteId(null) }
 
   // EVENTO — crea o edita un género
-  const handleAceptar = () => {
+  const handleAceptar = async () => {
     if (!nombre.trim()) return
-    if (modal === 'editar' && editItem) {
-      setLista(lista.map(g => g.id === editItem.id ? { ...g, nombre: nombre.trim() } : g))
-    } else {
-      const nuevoId = `#GEN-${lista.length + 1}`
-      setLista([...lista, { id: nuevoId, nombre: nombre.trim(), libros: 0 }])
+
+    const datosGenero = {
+      nombre: nombre.trim()
     }
-    cerrarModal()
+
+    try {
+      if (modal === 'editar' && editItem) {
+        // Petición PUT para actualizar el nombre del género existente
+        await apiFetch(`/generos/${editItem.id}`, token, {
+          method: 'PATCH',
+          body: JSON.stringify({ nombre: nombre.trim() })
+        })
+      } else {
+        // Petición POST para dar de alta un nuevo género en MySQL
+        await apiFetch('/generos', token, {
+          method: 'POST',
+          body: JSON.stringify({ nombre: nombre.trim() })
+        })
+      }
+      
+      cerrarModal()
+      cargarGeneros() // Volvemos a consultar la base de datos para ver los cambios actualizados
+    } catch (err) {
+      alert(err.message || 'Error al procesar la solicitud en el servidor.')
+    }
   }
 
-  const handleEliminar = () => {
-    setLista(lista.filter(g => g.id !== deleteId))
-    cerrarModal()
+  const handleEliminar = async () => {
+    if (!deleteId) return
+    try {
+      await apiFetch(`/generos/${deleteId}`, token, {
+        method: 'DELETE'
+      })
+      cerrarModal()
+      cargarGeneros() // Recarga la lista de MySQL reflejando la eliminación
+    } catch (err) {
+      alert('No se pudo eliminar el género. Verificá si no tiene libros asociados.')
+    }
   }
 
   return (
@@ -64,12 +120,19 @@ function GestionGeneros() {
         <HeaderAdmin />
         <main className="flex-1 p-8 space-y-6">
 
-          {/* COMPONENTE reutilizable — título y botón  */}
+          {/* COMPONENTE reutilizable — título y botón
+  */}
           <EncabezadoSeccion
             titulo="Gestión de géneros"
             textBoton="Nuevo Género"
             onAccion={abrirCrear}
           />
+
+          {error && (
+            <p className="text-sm text-red-500 font-semibold bg-red-50 p-4 rounded-xl border border-red-100">
+              ⚠️ {error}
+            </p>
+          )}
 
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
@@ -82,10 +145,20 @@ function GestionGeneros() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {/* RENDERIZADO DE LISTA con .map()  */}
-                  {paginados.map(genero => (
+                  {/* RENDERIZADO DE LISTA con .map()
+  */}
+                  {cargando && (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-16 text-center text-gray-400 text-sm animate-pulse">
+                        Cargando géneros desde MySQL...
+                      </td>
+                    </tr>
+                  )}
+
+                  {!cargando && paginados.map(genero => (
                     <tr key={genero.id} className="hover:bg-purple-50/30 transition-colors">
-                      <td className="px-6 py-4 text-xs text-gray-500 font-mono">{genero.id}</td>
+                      {/* Mostramos el id real de la base de datos en vez del prefijo mock */}
+                      <td className="px-6 py-4 text-xs text-gray-500 font-mono">#{genero.id}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <span className="w-2 h-2 rounded-full bg-[#7B5B98] flex-shrink-0" />
@@ -101,8 +174,9 @@ function GestionGeneros() {
                       </td>
                     </tr>
                   ))}
-                  {paginados.length === 0 && (
-                    <tr><td colSpan={4} className="px-6 py-16 text-center text-gray-400 text-sm">No hay géneros registrados.</td></tr>
+                  
+                  {!cargando && paginados.length === 0 && !error && (
+                    <tr><td colSpan={4} className="px-6 py-16 text-center text-gray-400 text-sm">No hay géneros registrados en la base de datos.</td></tr>
                   )}
                 </tbody>
               </table>
@@ -110,7 +184,8 @@ function GestionGeneros() {
             <Pagination currentPage={pagina} totalPages={totalPaginas} totalItems={lista.length} itemsPerPage={POR_PAGINA} itemLabel="géneros" onPageChange={setPagina} />
           </div>
 
-          {/* RENDERIZADO CONDICIONAL con &&  */}
+          {/* RENDERIZADO CONDICIONAL con &&
+  */}
           {modal && (
             <ModalFormulario
               titulo={modal === 'editar' ? 'Editar Género' : 'Nuevo Género'}
