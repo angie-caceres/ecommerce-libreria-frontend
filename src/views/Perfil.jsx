@@ -49,7 +49,7 @@ function Perfil({ usuario, cerrarSesion }) {
     if (result.isConfirmed) {
       const token = localStorage.getItem("jwtToken") || localStorage.getItem("token")
 
-      const response = await fetch("http://localhost:4002/api/v1/users/me", {
+      const response = await fetch("http://localhost:4002/usuarios/me", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

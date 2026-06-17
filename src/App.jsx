@@ -58,7 +58,7 @@ function App() {
   useEffect(() => {
     const tokenGuardado = localStorage.getItem('jwtToken')
     if (tokenGuardado) {
-      apiFetch('/api/v1/users/me', tokenGuardado)
+      apiFetch('/usuarios/me', tokenGuardado)
         .then(data => {
           setUsuario({
             email: data.email,

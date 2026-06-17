@@ -28,8 +28,8 @@ function Login({ setUsuario, setToken }) {
       // Guarda el token en localStorage para persistir entre recargas
       localStorage.setItem('jwtToken', data.access_token)
 
-      // GET /api/v1/users/me — obtiene los datos del usuario logueado
-      const usuario = await apiFetch('/api/v1/users/me', data.access_token)
+      // GET /usuarios/me — obtiene los datos del usuario logueado
+      const usuario = await apiFetch('/usuarios/me', data.access_token)
 
       // Actualiza el estado global con el rol
       const usuarioLogueado = {
