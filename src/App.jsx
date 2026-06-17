@@ -37,6 +37,8 @@ import Login from "./views/Login";
 import MisOrdenes from "./views/MisOrdenes";
 import DetalleOrden from "./views/DetalleOrden";
 
+import ScrollArriba from "./components/ScrollArriba";
+
 
 
 
@@ -100,7 +102,7 @@ function App() {
 
   return (
     <>
-
+      <ScrollArriba /> 
       {/* Navbar recibe carrito como prop para mostrar el badge*/}
       
       {/*RENDERIZADO CONDICIONAL: Solo muestra el Navbar si NO es admin */}
