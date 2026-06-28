@@ -65,8 +65,8 @@ function GestionDescuentos() {
       return
     }
 
-    if (numeroPorcentaje < 1 || numeroPorcentaje > 100) {
-      setErrorPorcentaje("El descuento debe estar entre 1% y 100%.")
+    if (numeroPorcentaje < 0 || numeroPorcentaje > 100) {
+      setErrorPorcentaje("El descuento debe estar entre 0% y 100%.")
       return
     }
 
@@ -202,7 +202,7 @@ function GestionDescuentos() {
               onAceptar={crearDescuento}
               deshabilitado={
                 !porcentaje.trim() ||
-                Number(porcentaje) < 1 ||
+                Number(porcentaje) < 0 ||
                 Number(porcentaje) > 100
               }
             >
@@ -214,7 +214,7 @@ function GestionDescuentos() {
                 <input
                   autoFocus
                   type="number"
-                  min="1"
+                  min="0"
                   max="100"
                   className={inputClass}
                   placeholder="Ej: 15"
@@ -225,7 +225,7 @@ function GestionDescuentos() {
 
                     if (!valor.trim()) {
                       setErrorPorcentaje("")
-                    } else if (Number(valor) < 1 || Number(valor) > 100) {
+                    } else if (Number(valor) < 0 || Number(valor) > 100) {
                       setErrorPorcentaje("El descuento debe estar entre 1% y 100%.")
                     } else {
                       setErrorPorcentaje("")
